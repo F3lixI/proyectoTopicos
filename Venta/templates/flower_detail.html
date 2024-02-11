@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Flor</title>
+    <style>
+        /* Estilos CSS aquí */
+        .container {
+            margin: 20px;
+        }
+        .flower {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .flower img {
+            float: left;
+            margin-right: 10px;
+        }
+        .flower .details {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalle de Flor</h1>
+        {% for flower in flowers %}
+        <div class="flower">
+            <img src="{{ flower.SMALL }}" alt="{{ flower.NAME }}">
+            <div class="details">
+                <h2>{{ flower.NAME }}</h2>
+                <p><strong>Precio:</strong> ${{ flower.PRICE }}</p>
+                <p><strong>Descripción:</strong> {{ flower.DESCRIPTION }}</p>
+                <p><strong>Dimensiones:</strong> {{ flower.DIMENSION }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
