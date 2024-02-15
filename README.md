@@ -2,7 +2,7 @@
 
 ## Clickup
 
-https://app.clickup.com/36287435/v/li/900902740416
+https://sharing.clickup.com/36287435/l/h/6-900902740416-1/c3b009814cda182
 
 ## Reglas negocio:
 
