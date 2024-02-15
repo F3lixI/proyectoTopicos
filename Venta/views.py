@@ -8,4 +8,6 @@ def index(request):
     
     flores = Flores.objects.all()[:5]
     
-    return render(request, 'index.html', {'flores': flores})
+    plantas = Flores.objects.all()[5:10]
+    
+    return render(request, 'index.html', {'flores': flores, 'plantas': plantas})
