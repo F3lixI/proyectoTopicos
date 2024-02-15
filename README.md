@@ -1,5 +1,9 @@
 # Floreria
 
+## Clickup
+
+https://app.clickup.com/36287435/v/li/900902740416
+
 ## Reglas negocio:
 
 1. - Catálogo de Productos: Nuestra plataforma ofrece una variedad de arreglos florales y productos para diversas ocasiones, clasificados en categorías como San Valentín, Mejorate pronto, Funeral, Agradecimiento, Feliz Cumpleaños, Aniversario, Cotidiano, Amor y Romance. Además, tenemos productos adicionales como Rosas, Arreglos de floreros, plantas, globos, centros de mesa y canastas frutales.
