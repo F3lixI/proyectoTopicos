@@ -99,29 +99,29 @@
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
           </form>
 
-          <h5 class="cat-list-title">Browse Categories</h5>
+          <h5 class="cat-list-title">Navega por categorias</h5>
           
           <ul class="cat-list">
             <li class="cat-list-item">
-              <a href="#" title="Mobile Phones">Mobile Phones</a>
+              <a href="#" title="Mobile Phones">Rosas</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Smart Watches">Smart Watches</a>
+              <a href="#" title="Smart Watches">Arreglos Florales</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Headphones">Headphones</a>
+              <a href="#" title="Headphones">Plantas</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Accessories">Accessories</a>
+              <a href="#" title="Accessories">Globos</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Monitors">Monitors</a>
+              <a href="#" title="Monitors">Centros de Mesa</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Speakers">Speakers</a>
+              <a href="#" title="Speakers">Arreglos Unilaterales</a>
             </li>
             <li class="cat-list-item">
-              <a href="#" title="Memory Cards">Memory Cards</a>
+              <a href="#" title="Memory Cards">Canastas Frutales</a>
             </li>
           </ul>
 
@@ -270,8 +270,8 @@
                 </svg>
               </div>
               <div class="icon-box-content">
-                <h3 class="card-title text-uppercase text-dark">Free delivery</h3>
-                <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>
+                <h3 class="card-title text-uppercase text-dark">Entrega Gratuita*</h3>
+                <p>Envio a domicilio con un mínimo de compra de $300.00 pesos.</p>
               </div>
             </div>
           </div>
@@ -283,8 +283,8 @@
                 </svg>
               </div>
               <div class="icon-box-content">
-                <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>
-                <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>
+                <h3 class="card-title text-uppercase text-dark">Calidad Garantizada</h3>
+                <p>Flores frescas y hermosas, calidad garantizada. Experiencia floral inigualable para ti.</p>
               </div>
             </div>
           </div>
@@ -296,8 +296,8 @@
                 </svg>
               </div>
               <div class="icon-box-content">
-                <h3 class="card-title text-uppercase text-dark">Daily offers</h3>
-                <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>
+                <h3 class="card-title text-uppercase text-dark">Precios justos</h3>
+                <p>Belleza y calidad accesible para cada ocasión especial.</p>
               </div>
             </div>
           </div>
@@ -309,8 +309,8 @@
                 </svg>
               </div>
               <div class="icon-box-content">
-                <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>
-                <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>
+                <h3 class="card-title text-uppercase text-dark">Pago en línea 100% seguro </h3>
+                <p>Utiliza tu tarjeta de débito/crédito o PayPal para realizar tu compra.</p>
               </div>
             </div>
           </div>
@@ -318,12 +318,13 @@
       </div>
     </section>
     <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+      {% for flor in flores %}
       <div class="container">
         <div class="row">
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Mobile Products</h2>
             <div class="btn-right">
-              <a href="shop.html" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
+              <a href="shop.html" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
             </div>
           </div>
           <div class="swiper product-swiper">
@@ -331,18 +332,18 @@
               <div class="swiper-slide">
                 <div class="product-card position-relative">
                   <div class="image-holder">
-                    <img src="/static/images/product-item1.jpg" alt="product-item" class="img-fluid">
+                    <img src="{{ flor.large_image }}" alt="product-item" class="img-fluid">
                   </div>
                   <div class="cart-concern position-absolute">
                     <div class="cart-button d-flex">
-                      <a href="flower_detail.html" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                      <a href="flower_detail.html" class="btn btn-medium btn-black">Añadir al Carrito<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                     </div>
                   </div>
                   <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                     <h3 class="card-title text-uppercase">
-                      <a href="#">Iphone 10</a>
+                      <a href="#">{{flor.name}}</a>
                     </h3>
-                    <span class="item-price text-primary">$980</span>
+                    <span class="item-price text-primary">{{flor.price}}</span>
                   </div>
                 </div>
               </div>
@@ -422,6 +423,7 @@
           </div>
         </div>
       </div>
+      {% endfor %}
       <div class="swiper-pagination position-absolute text-center"></div>
     </section>
     <section id="smart-watches" class="product-store padding-large position-relative">
