@@ -11,3 +11,6 @@ def index(request):
     plantas = Flores.objects.all()[5:10]
     
     return render(request, 'index.html', {'flores': flores, 'plantas': plantas})
+
+def signup(request):
+    return render(request, 'signup.html')
