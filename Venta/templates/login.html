@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,14 +24,14 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
               <div class="offcanvas-header px-4 pb-0">
                 <a class="navbar-brand" href="index.html">
-                  <img src="static\images\shop\main-logo.png.png" class="logo">
+                  <img src="static\images\shop\main-logo.png" class="logo">
                 </a>
                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
               </div>
               <div class="offcanvas-body">
                 <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                   <li class="nav-item">
-                    <a class="nav-link me-4 active" href="#billboard">Inicio</a>
+                    <a class="nav-link me-4" href="#billboard">Inicio</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link me-4" href="#company-services">Catalogo</a>
@@ -46,67 +47,45 @@
           </div>
         </nav>
       </header>
-    <!-- Section: Design Block -->
-<section class="text-center text-lg-start">
-    <style>
-      .cascading-right {
-        margin-right: -50px;
-      }
-  
-      @media (max-width: 991.98px) {
-        .cascading-right {
-          margin-right: 0;
-        }
-      }
-    </style>
-  
-    <!-- Jumbotron -->
-    <div class="container py-4">
-      <div class="row g-0 align-items-center">
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <div class="card cascading-right" style="
-              background: hsla(0, 0%, 100%, 0.55);
-              backdrop-filter: blur(30px);
-              ">
-            <div class="card-body p-5 shadow-5 text-center">
-              <h2 class="text-uppercase text-center mb-5">Crear Cuenta</h2>
-              
-                <form action="" method="post">
-                  {% csrf_token %}
-                  {{ form|crispy }}
 
-                  {% if form.errors %}
-                  <div class="alert alert-danger" role="alert">
-                      {% for field, error_list in form.errors.items %}
-                          {% for error in error_list %}
-                              {{ error }}
-                          {% endfor %}
-                      {% endfor %}
-                  </div>
-                   {% endif %}
-          
-                 
-              
-  
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4 btn-lg" >
-                  Registrarse
-                </button>
-  
+      <br><br><br><br>
+
+<section class="vh-100 bg-image" style="background-image:url('{% static 'images\shop\pexels-pok-rie-268261.jpg' %}'); background-size: 70%;">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Inicio de Sesión
+              </h2>
+
+
+              <form method="post">
+                    
+                {% csrf_token %}
+
+                {{ form|crispy }}
+    
+                <div class="d-flex justify-content-center">
+                  <button type="submit" 
+                    class="btn btn-primary btn-block mb-4 btn-lg">Iniciar Sesión</button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0">¿No tienes cuenta?<a href="{% url 'signup' %}"
+                    class="fw-bold text-body"><u>Crea una aquí</u></a></p>
+
                 
               </form>
+
             </div>
           </div>
         </div>
-  
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <img src="static\images\shop\signup.png" class="w-100 rounded-4 shadow-4"
-            alt=""  />
-        </div>
       </div>
     </div>
-    <!-- Jumbotron -->
-  </section>
-  <!-- Section: Design Block -->
+  </div>
+</section>
+    
+    
 </body>
 </html>
