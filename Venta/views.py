@@ -14,19 +14,15 @@ def index(request):
     return render(request, 'index.html', {'flores': flores, 'plantas': plantas})
 
 def signup(request):
-    
-    data = {
-        'form': CustomCreationForm()
-    }
-    
     if request.method == 'POST':
-        user_creation_form = CustomCreationForm(data=request.POST)
-        
-        if user_creation_form.is_valid():
-            user_creation_form.save()
+        form = CustomCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('index')
-        
-    return render(request, 'signup.html', data)
+    else:
+        form = CustomCreationForm()
+    
+    return render(request, 'signup.html', {'form': form})
 
 def iniciarSesion(request):
     if request.method == 'POST':
@@ -47,3 +43,17 @@ def iniciarSesion(request):
     else:
         # Si no es una solicitud POST, simplemente renderiza el formulario vacío
         return render(request, 'login.html', {'form': AuthenticationForm()})
+    
+def listProducts(request):
+    
+    flores = Flores.objects.all()[:20]
+    
+    return render(request, 'listProducts.html', {'flores': flores})
+
+def singleProduct(request, pk):
+    
+    flor = Flores.objects.get(pk=pk)
+    
+    flores = Flores.objects.all()[:4]
+    
+    return render(request, 'flower_detail.html', {'flor': flor, 'flores': flores})
