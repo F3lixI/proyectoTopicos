@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from . models import Flores
 from .forms import CustomCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 
 def index(request):
@@ -57,3 +57,7 @@ def singleProduct(request, pk):
     flores = Flores.objects.all()[:4]
     
     return render(request, 'flower_detail.html', {'flor': flor, 'flores': flores})
+
+def cerrarSesion(request):
+    logout(request)
+    return redirect('index')

@@ -177,6 +177,14 @@
                 <li class="nav-item">
                   <a class="nav-link me-4" href="#yearly-sale">Contacto</a>
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link me-4" href="{% url 'logout' %}">Cerrar Sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link me-4" href="{% url 'login' %}">Iniciar Sesión</a>
+                {% endif %}
                 <li class="nav-item">
                   <div class="user-items ps-5">
                     <ul class="d-flex justify-content-end list-unstyled">

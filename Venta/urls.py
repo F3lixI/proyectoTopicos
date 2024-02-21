@@ -8,5 +8,6 @@ urlpatterns = [
     path('login', views.iniciarSesion, name='login'),
     path('listProducts', views.listProducts, name='listProducts'),
     path('detalles/<int:pk>/', views.singleProduct, name='singleProduct'),
+    path('logout', views.cerrarSesion, name='logout'),
 ]
 
