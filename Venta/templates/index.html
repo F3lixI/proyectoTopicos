@@ -131,7 +131,7 @@
     <header id="header" class="site-header header-scrolled position-fixed text-black bg-light">
       <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{% url 'index' %}">
             <img src="static\images\shop\main-logo.png" class="logo">
           </a>
           <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,7 +141,7 @@
           </button>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
             <div class="offcanvas-header px-4 pb-0">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="static\images\shop\main-logo.png.png" class="logo">
               </a>
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
@@ -149,10 +149,10 @@
             <div class="offcanvas-body">
               <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link me-4 active" href="#billboard">Inicio</a>
+                  <a class="nav-link me-4 active" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#company-services">Catalogo</a>
+                  <a class="nav-link me-4" href="{% url 'listProducts' %}">Catalogo</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ocasiones</a>
@@ -175,7 +175,7 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#yearly-sale">Contacto</a>
+                  <a class="nav-link me-4" href="#footer">Contacto</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -305,7 +305,7 @@
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Arreglos Florales</h2>
             <div class="btn-right">
-              <a href="shop.html" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
+              <a href="{% url 'listProducts' %}" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
             </div>
           </div>
           <div class="swiper product-swiper">
@@ -343,7 +343,7 @@
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Plantas</h2>
             <div class="btn-right">
-              <a href="shop.html" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
+              <a href="{% url 'listProducts' %}" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
             </div>
           </div>
 
@@ -353,7 +353,9 @@
               <div class="swiper-slide">
                 <div class="product-card position-relative">
                   <div class="image-holder">
-                    <img src="{{ planta.large_image }}" alt="product-item" class="img-fluid">
+                    <a href="{% url 'singleProduct' planta.id %}">
+                      <img src="{{ planta.large_image }}" alt="product-item" class="img-fluid">
+                    </a>
                   </div>
                   <div class="cart-concern position-absolute">
                     <div class="cart-button d-flex">
@@ -480,7 +482,7 @@
           <div class="d-flex flex-wrap">
             {% for flor in flores %}
             <figure class="instagram-item pe-2">
-              <a href="#" class="image-link position-relative">
+              <a href="{% url 'singleProduct' flor.id %}" class="image-link position-relative">
                 <img src="{{ flor.large_image }}" alt="instagram" class="insta-image">
               </a>
             </figure>
