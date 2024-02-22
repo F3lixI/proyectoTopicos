@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -150,30 +151,10 @@
               <div class="offcanvas-body">
                 <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                   <li class="nav-item">
-                    <a class="nav-link me-4 active" href="#billboard">Inicio</a>
+                    <a class="nav-link me-4" href="#billboard">Inicio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-4" href="#company-services">Catalogo</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ocasiones</a>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a href="about.html" class="dropdown-item">San Valentín</a>
-                      </li>
-                      <li>
-                        <a href="blog.html" class="dropdown-item">FeliZ Cumpleaños</a>
-                      </li>
-                      <li>
-                        <a href="shop.html" class="dropdown-item">Agradecimiento</a>
-                      </li>
-                      <li>
-                        <a href="cart.html" class="dropdown-item">Mejorate Pronto</a>
-                      </li>
-                      <li>
-                        <a href="checkout.html" class="dropdown-item">Funeral</a>
-                      </li>
-                    </ul>
+                    <a class="nav-link me-4 active" href="{% url 'listProducts' %}">Catalogo</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link me-4" href="#yearly-sale">Contacto</a>
@@ -306,27 +287,13 @@
               <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
                 <div class="accordion-body">
                   
-                  <div class="row mb-3">
-                    <div class="col-6">
-                      <p class="mb-0">
-                        Min
-                      </p>
-                      <div class="form-outline">
-                        <input type="number" id="typeNumber" class="form-control" />
-                        <label class="form-label" for="typeNumber">$0</label>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <p class="mb-0">
-                        Max
-                      </p>
-                      <div class="form-outline">
-                        <input type="number" id="typeNumber" class="form-control" />
-                        <label class="form-label" for="typeNumber">$1,000</label>
-                      </div>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-primary w-100 border border-secondary">Aplicar</button>
+                  <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+                 
                 </div>
               </div>
             </div>
@@ -350,6 +317,7 @@
         </header>
 
         <div class="row">
+        {% if flores %}
          {% for flor in flores %}
           <div class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
@@ -368,6 +336,9 @@
             </div>
           </div>
             {% endfor %}
+          {% else %}
+            <h2>No hay productos</h2>
+          {% endif %}
         </div>
 
         <hr />
@@ -417,9 +388,9 @@
 </footer>
 <!-- Footer -->
     <!-- MDB -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="static/js/mdb.min.js"></script>
     <!-- Custom scripts -->
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="static/js/script.js"></script>
     <script src="static/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>

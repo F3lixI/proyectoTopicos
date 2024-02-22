@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . models import Flores
-from .forms import CustomCreationForm
+from .forms import CustomCreationForm, PrecioForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 
@@ -61,3 +61,22 @@ def singleProduct(request, pk):
 def cerrarSesion(request):
     logout(request)
     return redirect('index')
+
+def filtrar_productos(request):
+    if request.method == 'POST':
+        form = PrecioForm(request.POST)
+        if form.is_valid():
+            precio_min = form.cleaned_data['precio_min']
+            precio_max = form.cleaned_data['precio_max']
+            
+            if precio_min == None:
+                precio_min = 0
+                
+            flores = Flores.objects.filter(price__gte=precio_min, price__lte=precio_max)[:20]
+            return render(request, 'listProducts.html', {'flores': flores, 'form': form})
+    else:
+        form = PrecioForm()
+        
+        flores = Flores.objects.all()[:20]
+        
+        return render(request, 'listProducts.html', {'form': form, 'flores': flores})
