@@ -3,6 +3,7 @@ from . models import Flores
 from .forms import CustomCreationForm, PrecioForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.db.models import Q
 
 
 def index(request):
@@ -80,3 +81,15 @@ def filtrar_productos(request):
         flores = Flores.objects.all()[:20]
         
         return render(request, 'listProducts.html', {'form': form, 'flores': flores})
+    
+def search(request):
+    query = request.GET.get('q')
+    
+    flores = Flores.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    
+    if flores.exists():
+        return render(request, 'listProducts.html', {'flores': flores})
+    else:
+        return redirect('listProducts')
+    
+    

@@ -9,5 +9,6 @@ urlpatterns = [
     path('listProducts', views.filtrar_productos, name='listProducts'),
     path('detalles/<int:pk>/', views.singleProduct, name='singleProduct'),
     path('logout', views.cerrarSesion, name='logout'),
+    path('buscar', views.search, name='search'),
 ]
 
