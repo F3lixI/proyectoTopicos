@@ -92,4 +92,11 @@ def search(request):
     else:
         return redirect('listProducts')
     
+def listProductsCategory(request, category):
+    
+    flores = Flores.objects.filter(category=category)
+    
+    form = PrecioForm()
+    
+    return render(request, 'listProducts.html', {'flores': flores, 'form': form})
     

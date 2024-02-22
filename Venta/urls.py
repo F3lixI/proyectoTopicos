@@ -10,5 +10,6 @@ urlpatterns = [
     path('detalles/<int:pk>/', views.singleProduct, name='singleProduct'),
     path('logout', views.cerrarSesion, name='logout'),
     path('buscar', views.search, name='search'),
+    path('listProducts/<str:category>/', views.listProductsCategory, name='listProductsCategory'),
 ]
 

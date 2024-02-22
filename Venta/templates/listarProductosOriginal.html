@@ -1,5 +1,4 @@
 {% load crispy_forms_tags %}
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,15 +11,15 @@
         <meta name="author" content="">
         <meta name="keywords" content="">
         <meta name="description" content="">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="static\css\bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="static\style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
         <!-- script
         ================================================== -->
-        <script src="{% static 'js\modernizr.js' %}"></script>
+        <script src="static\js\modernizr.js"></script>
       </head>
 <body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -101,7 +100,7 @@
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
           </form>
 
-          <h5 class="cat-list-title">Navega por categoría</h5>
+          <h5 class="cat-list-title">Navega por categorias</h5>
           
           <ul class="cat-list">
             <li class="cat-list-item">
@@ -135,7 +134,7 @@
         <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
-              <img src="{% static 'images\shop\main-logo.png' %}" class="logo">
+              <img src="static\images\shop\main-logo.png" class="logo">
             </a>
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
               <svg class="navbar-icon">
@@ -145,7 +144,7 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
               <div class="offcanvas-header px-4 pb-0">
                 <a class="navbar-brand" href="index.html">
-                  <img src="{% static 'images\shop\main-logo.png' %}" class="logo">
+                  <img src="static\images\shop\main-logo.png.png" class="logo">
                 </a>
                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
               </div>
@@ -249,25 +248,25 @@
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
                   <div class="accordion-body">
                     <ul class="list-unstyled">
-                      <li><a href="{% url 'listProductsCategory' category='c' %}" class="text-dark">Centros de mesa</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='o' %}" class="text-dark">Arreglos unilaterales</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='v' %}" class="text-dark">Arreglos en jarrón</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='r' %}" class="text-dark">Rosas</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='x' %}" class="text-dark">Canastas de frutas</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='p' %}" class="text-dark">Plantas</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='b' %}" class="text-dark">Globos</a></li>
+                        <li><a href="#" class="text-dark">Centros de mesa</a></li>
+                        <li><a href="#" class="text-dark">Arreglos unilaterales</a></li>
+                        <li><a href="#" class="text-dark">Arreglos en jarrón</a></li>
+                        <li><a href="#" class="text-dark">Rosas</a></li>
+                        <li><a href="#" class="text-dark">Canastas de frutas</a></li>
+                        <li><a href="#" class="text-dark">Plantas</a></li>
+                        <li><a href="#" class="text-dark">Globos</a></li>
                         <li><strong>Arreglos Funerales:</strong></li>
-                      <li><a href="{% url 'listProductsCategory' category='fbs' %}" class="text-dark">Los más vendidos</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fa' %}" class="text-dark">Arreglos de mesa</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fb' %}" class="text-dark">Cestas de flores</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fs' %}" class="text-dark">Ramos</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fp' %}" class="text-dark">Plantas</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fl' %}" class="text-dark">Arreglos ataúd</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fw' %}" class="text-dark">Coronas</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fh' %}" class="text-dark">Corazones</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fx' %}" class="text-dark">Cruces</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fc' %}" class="text-dark">Ramos de ataúd</a></li>
-                      <li><a href="{% url 'listProductsCategory' category='fu' %}" class="text-dark">Arreglos de urna</a></li>
+                        <li><a href="#" class="text-dark">Los más vendidos</a></li>
+                        <li><a href="#" class="text-dark">Arreglos de mesa</a></li>
+                        <li><a href="#" class="text-dark">Cestas de flores</a></li>
+                        <li><a href="#" class="text-dark">Ramos</a></li>
+                        <li><a href="#" class="text-dark">Plantas</a></li>
+                        <li><a href="#" class="text-dark">Arreglos ataúd</a></li>
+                        <li><a href="#" class="text-dark">Coronas</a></li>
+                        <li><a href="#" class="text-dark">Corazones</a></li>
+                        <li><a href="#" class="text-dark">Cruces</a></li>
+                        <li><a href="#" class="text-dark">Ramos de ataúd</a></li>
+                        <li><a href="#" class="text-dark">Arreglos de urna</a></li>
                     </ul>
                   </div>
                 </div>
@@ -392,14 +391,14 @@
 </footer>
 <!-- Footer -->
     <!-- MDB -->
-    <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+    <script type="text/javascript" src="static/js/mdb.min.js"></script>
     <!-- Custom scripts -->
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script type="text/javascript" src="static/js/script.js"></script>
+    <script src="static/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/plugins.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+<script type="text/javascript" src="static/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="static/js/plugins.js"></script>
+<script type="text/javascript" src="static/js/script.js"></script>
 </body>
 </html>
 

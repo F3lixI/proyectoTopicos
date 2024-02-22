@@ -22,3 +22,4 @@ class PrecioForm(forms.Form):
     precio_min = forms.DecimalField(label='Precio mínimo', required=False)
     precio_max = forms.DecimalField(label='Precio máximo')
     
+    
