@@ -11,6 +11,5 @@ urlpatterns = [
     path('logout', views.cerrarSesion, name='logout'),
     path('buscar', views.search, name='search'),
     path('listProducts/<str:category>/', views.listProductsCategory, name='listProductsCategory'),
-    #path('listProducts/<str:category>/<str:orden>/', views.listProductsOrden, name='listProductsOrden'),
 ]
 

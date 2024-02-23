@@ -110,9 +110,19 @@ def listProductsCategory(request, category):
     else:
         form = PrecioForm()
         
-        flores = Flores.objects.filter(category=category)[:20]
+        orden = request.GET.get('orden')
         
-        return render(request, 'listProducts.html', {'form': form, 'flores': flores})
+        if orden == '1':  
+            flores = Flores.objects.filter(category=category).order_by('price')[:20]
+        elif orden == '2':  
+            flores = Flores.objects.filter(category=category).order_by('-price')[:20]
+        elif orden == '3': 
+            flores = Flores.objects.filter(category=category).order_by('name')[:20]
+        else:
+            flores = Flores.objects.filter(category=category)[:20]
+        
+        
+        return render(request, 'listProducts.html', {'form': form, 'flores': flores, 'orden': orden})
     
 
     
