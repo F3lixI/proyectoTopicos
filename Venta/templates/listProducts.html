@@ -309,15 +309,17 @@
       <!-- content -->
       <div class="col-lg-9">
         <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-          <h2 class="d-block py-2">Flores </h2>
+          <h2 class="d-block py-2">Buscando: </h2>
           <div class="ms-auto">
-            <select class="form-select d-inline-block w-auto border pt-1">
-              <option value="0">Precio: Menor a Mayor</option>
-              <option value="1">Precio: Mayor a Menor</option>
-              <option value="2">Alfabeticamente: A-Z</option>
-              <option value="3">Más vendidos</option>
-            </select>
-          </div>
+            <form method="get" action="">
+                <select name="orden" id="ordenamiento" class="form-select d-inline-block w-auto border pt-1" onchange="this.form.submit()">
+                  <option value="0" {% if orden == '0' %}selected{% endif %}>Ordenar por defecto</option>
+                  <option value="1" {% if orden == '1' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                  <option value="2" {% if orden == '2' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                  <option value="3" {% if orden == '3' %}selected{% endif %}>Alfabéticamente: A-Z</option>
+                </select>
+            </form>
+        </div>
         </header>
 
         <div class="row">
