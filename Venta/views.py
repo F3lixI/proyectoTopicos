@@ -100,13 +100,24 @@ def listProductsCategory(request, category):
             precio_min = form.cleaned_data['precio_min']
             precio_max = form.cleaned_data['precio_max']
             
+            orden = request.GET.get('orden')
+        
+            if orden == '1':  
+                flores = Flores.objects.filter(category=category).order_by('price')[:20]
+            elif orden == '2':  
+                flores = Flores.objects.filter(category=category).order_by('-price')[:20]
+            elif orden == '3': 
+                flores = Flores.objects.filter(category=category).order_by('name')[:20]
+            else:
+                flores = Flores.objects.filter(category=category)[:20]
+            
             if precio_min == None:
                 precio_min = 0
                 
             flores = Flores.objects.filter(category=category, price__gte=precio_min, price__lte=precio_max)[:20]
             
             
-            return render(request, 'listProducts.html', {'flores': flores, 'form': form})
+            return render(request, 'listProducts.html', {'flores': flores, 'form': form, 'orden': orden})
     else:
         form = PrecioForm()
         
