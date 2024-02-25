@@ -253,21 +253,34 @@
                     </div>
 
 
-                    <!-- <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2"
+                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                      <a href="{% url 'disminuirCantidad' flor.id %}">
+                        <button class="btn btn-link px-2"
                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                         <i class="fas fa-minus"></i>
-                      </button>
-      
-                      <input id="form1" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm" />
-      
-                      <button class="btn btn-link px-2"
+                        </button>
+                      </a>
+                    
+
+                      <div>
+                        <p class="lead fw-normal mb-2">
+                            {% for id, cant in cantidad %}
+                                {% if id == flor.id %}
+                                    <p> {{ cant }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </p>    
+                
+                    </div>
+                        
+                      <a href="{% url 'updateShoppingCart' flor.id %}">
+                        <button class="btn btn-link px-2"
                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                         <i class="fas fa-plus"></i>
                       </button>
-                    </div> -->
+                      </a>
                     
+                    </div>
 
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                       <h5 class="mb-0">$ {{ flor.price }}</h5>
@@ -291,7 +304,7 @@
                 </div>
                 <br><br>
                 <div class="card">
-                        
+
                     <a  class="btn btn-primary btn-block btn-lg" href="{% url 'listProducts' %}">Seguir navegando</a>
                   </div>
                 {% endif %}
