@@ -334,7 +334,7 @@
                 </div>
                 <p class="card-text">{{ flor.name }}</p>
                 <div class="card-footer d-flex align-items-end pt-1 px-2 pb-0 mt-auto">
-                  <a href="#!" class="btn btn-primary btn-sm shadow-0 me-1">Añadir al Carrito</a>
+                  <a href="{% url 'addShoppingCart' pk=flor.id %}" class="btn btn-primary btn-sm shadow-0 me-1">Añadir al Carrito</a>
                   <a href="{% url 'singleProduct' pk=flor.id %}" class="btn btn-secondary btn-sm shadow-0 me-1">Ver detalles</a>
     
                 </div>

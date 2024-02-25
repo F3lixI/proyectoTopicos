@@ -136,6 +136,27 @@ def listProductsCategory(request, category):
         return render(request, 'listProducts.html', {'form': form, 'flores': flores, 'orden': orden})
     
 
+def seeShoppingCart(request):
+    carrito = request.session.get('carrito', {})
+    
+    flores = Flores.objects.filter(id__in=carrito.keys())
+    
+    total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+    
+    print(flores)
+    
+    return render(request, 'cart.html', {'flores': flores, 'total': total})
+
+def addShoppingCart(request, pk):
+    
+    carrito = request.session.get('carrito', {})
+    
+    carrito[pk] = carrito.get(pk, 0) + 1
+    request.session['carrito'] = carrito
+    
+    return redirect('shoppingCart')
+    
+
     
 
     
