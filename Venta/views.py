@@ -143,7 +143,7 @@ def seeShoppingCart(request):
     
     total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
     
-    print(flores)
+    #print(flores)
     
     return render(request, 'cart.html', {'flores': flores, 'total': total})
 
@@ -152,6 +152,15 @@ def addShoppingCart(request, pk):
     carrito = request.session.get('carrito', {})
     
     carrito[pk] = carrito.get(pk, 0) + 1
+    request.session['carrito'] = carrito
+    
+    return redirect('shoppingCart')
+
+def removeShoppingCart(request, pk):
+    carrito = request.session.get('carrito', {})
+    
+    del carrito[str(pk)]
+
     request.session['carrito'] = carrito
     
     return redirect('shoppingCart')
