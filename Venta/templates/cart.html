@@ -294,7 +294,8 @@
               </div>
               {% endfor %}
               <div class="card">
-                <button type="button" class="btn btn-primary btn-block btn-lg">Proceder al Pago</button>
+                
+                <a href="{% url 'checkout' %}" class="btn btn-primary btn-block btn-lg" >Proceder al pago</a>
               </div>
                 {% else %}
                 <div class="card">

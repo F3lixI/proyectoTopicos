@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . models import Flores
-from .forms import CustomCreationForm, PrecioForm
+from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
@@ -186,6 +186,36 @@ def disminuirCantidad(request, pk):
     request.session['carrito'] = carrito
     
     return redirect('shoppingCart')
+
+
+def checkout(request):
+    if request.method == 'POST':
+        if 'direccion-submit' in request.POST:
+            form = DomicilioForm(request.POST)
+            if form.is_valid():
+                # Procesar el formulario de dirección si es válido
+                # Luego, pasar al formulario de pago
+                formPayment = PaymentForm()
+                return render(request, 'checkout.html', {'formPayment': formPayment})
+            else:
+                # Si el formulario de dirección no es válido, vuelve a mostrarlo con los errores
+                return render(request, 'checkout.html', {'form': form})
+        elif 'payment-submit' in request.POST:
+            formPayment = PaymentForm(request.POST)
+            if formPayment.is_valid():
+                print(formPayment.cleaned_data)
+                # Procesar el formulario de pago si es válido
+                # Aquí puedes realizar las acciones necesarias, como guardar la información y completar la compra
+                # Después de procesar el pago, podrías redirigir al usuario a una página de confirmación o a donde desees
+                return redirect('index')
+            else:
+                # Si el formulario de pago no es válido, vuelve a mostrarlo con los errores
+                return render(request, 'checkout.html', {'formPayment': formPayment})
+    else:
+        # Cargar el formulario de dirección por defecto
+        form = DomicilioForm()
+        return render(request, 'checkout.html', {'form': form})
+
     
 
     

@@ -1,0 +1,8 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<form action="post">
+    {% csrf_token %}
+    {{ formPayment|crispy }}
+  </form>
