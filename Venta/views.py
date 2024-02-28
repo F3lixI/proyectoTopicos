@@ -215,6 +215,9 @@ def checkout(request):
         # Cargar el formulario de dirección por defecto
         form = DomicilioForm()
         return render(request, 'checkout.html', {'form': form})
+    
+    
+
 
     
 

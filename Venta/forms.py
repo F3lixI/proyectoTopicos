@@ -35,7 +35,6 @@ class DomicilioForm(forms.Form):
     
 class PaymentForm(forms.Form):
     cardNumber = forms.CharField(label='Número de tarjeta', max_length=16, required=True)
-    #expirationDate = forms.DateField(label='Fecha de expiración', required=True)
     expirationDate = forms.CharField(max_length=5, label='Fecha de vencimiento (MM/YY)', help_text='Formato: MM/YY')
     cvv = forms.IntegerField(label='CVV', required=True)
     cardHolder = forms.CharField(label='Nombre del titular', max_length=100, required=True)
