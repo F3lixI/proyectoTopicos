@@ -199,41 +199,48 @@ def checkout(request):
         if 'direccion-submit' in request.POST:
             form = DomicilioForm(request.POST)
             
+            #obtiene el metodo de pago del formulario
+            metodo_pago = request.POST.get('payment_method')
+            
                 
             if form.is_valid():
-                host = request.get_host()
-        
-                #obtiene el carrito de la sesion
-                carrito = request.session.get('carrito', {})
                 
-                #consulta las flores que estan en el carrito
-                flores = Flores.objects.filter(id__in=carrito.keys())
-
-                #calcula el total de la compra
-                total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
                 
-                paypal_checkout = {
-                    'business': settings.PAYPAL_RECEIVER_EMAIL,
-                    'amount': total,
-                    'item_name': 'Flores',
-                    'invoice': str(uuid.uuid4()),
-                    'currency_code': 'USD',
-                    #'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-                    #'return_url': 'http://{}{}'.format(host, reverse('profile')),
-                    #'cancel_return': 'http://{}{}'.format(host, reverse('checkout')),
-                }
-                
-                print(paypal_checkout)
-                
-                paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+                if metodo_pago == 'tarjeta':
+                    formPayment = PaymentForm()
+                    return render(request, 'checkout.html', {'formPayment': formPayment})
+                else:
+                    host = request.get_host()
             
-                formPayment = PaymentForm()
+                    #obtiene el carrito de la sesion
+                    carrito = request.session.get('carrito', {})
+                    
+                    #consulta las flores que estan en el carrito
+                    flores = Flores.objects.filter(id__in=carrito.keys())
+
+                    #calcula el total de la compra
+                    total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+                    
+                    paypal_checkout = {
+                        'business': settings.PAYPAL_RECEIVER_EMAIL,
+                        'amount': total,
+                        'item_name': 'Flores',
+                        'invoice': str(uuid.uuid4()),
+                        'currency_code': 'USD',
+                        #'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+                        #'return_url': 'http://{}{}'.format(host, reverse('profile')),
+                        #'cancel_return': 'http://{}{}'.format(host, reverse('checkout')),
+                    }
+                        
+                    paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
                 
-                context = {
-                    'paypal': paypal_payment,
-                }
-                
-                return render(request, 'checkout.html', context)
+                    formPayment = PaymentForm()
+                    
+                    context = {
+                        'paypal': paypal_payment,
+                    }
+                    
+                    return render(request, 'checkout.html', context)
             else:
                 # Si el formulario de dirección no es válido, vuelve a mostrarlo con los errores
                 return render(request, 'checkout.html', {'form': form})

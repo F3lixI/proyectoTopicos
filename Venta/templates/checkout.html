@@ -287,35 +287,39 @@
 
         <!-- Direccion -->
         <div class="col-md-8 order-md-1">
-          <h4 class="mb-3">Direccion de Envio</h4>
           <form class="needs-validation" novalidate method="post">
     
               {% csrf_token %}
               <!-- Formulario de dirección -->
               {% if form %}
+                <h4 class="mb-3">Direccion de Envio</h4>
                   {{ form|crispy }}
-                  <button type="submit" name="direccion-submit" class="btn btn-primary btn-block btn-lg">Enviar</button>
+                  <button type="submit" name="direccion-submit" class="btn btn-primary btn-block btn-lg">Continuar</button>
               {% endif %}
               <!-- Formulario de pago -->
               {% if formPayment %}
-
                   {{ formPayment|crispy }}
                   
-                  <button type="submit" name="payment-submit" class="btn btn-primary btn-block btn-lg" >Enviar</button>
+                  <button type="submit" name="payment-submit" class="btn btn-primary btn-block btn-lg" >Pagar</button>
                   
               {% endif %}
-              <hr>
+              
               <br>
   
             </div>
             
           </form>
+
+            <div class="col-md-8 order-md-1">
+                {% if paypal %}
+          <h4 class="mb-3">Pagar con Paypal</h4>
+                {{ paypal.render }}
+        
+          {% endif %}
+            </div>
           
         </div>
-        <h4 class="mb-3">Pagar con Paypal</h4>
-              {{ paypal.render }}
         
-              <br><br><br>
       </div>
 
       <footer class="my-5 pt-5 text-muted text-center text-small">
