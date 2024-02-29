@@ -5,6 +5,12 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
 
+#Paypal
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+from django.urls import reverse
+
 
 def index(request):
     
@@ -192,16 +198,49 @@ def checkout(request):
     if request.method == 'POST':
         if 'direccion-submit' in request.POST:
             form = DomicilioForm(request.POST)
+            
+                
             if form.is_valid():
-                # Procesar el formulario de dirección si es válido
-                # Luego, pasar al formulario de pago
+                host = request.get_host()
+        
+                #obtiene el carrito de la sesion
+                carrito = request.session.get('carrito', {})
+                
+                #consulta las flores que estan en el carrito
+                flores = Flores.objects.filter(id__in=carrito.keys())
+
+                #calcula el total de la compra
+                total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+                
+                paypal_checkout = {
+                    'business': settings.PAYPAL_RECEIVER_EMAIL,
+                    'amount': total,
+                    'item_name': 'Flores',
+                    'invoice': str(uuid.uuid4()),
+                    'currency_code': 'USD',
+                    #'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+                    #'return_url': 'http://{}{}'.format(host, reverse('profile')),
+                    #'cancel_return': 'http://{}{}'.format(host, reverse('checkout')),
+                }
+                
+                print(paypal_checkout)
+                
+                paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+            
                 formPayment = PaymentForm()
-                return render(request, 'checkout.html', {'formPayment': formPayment})
+                
+                context = {
+                    'paypal': paypal_payment,
+                }
+                
+                return render(request, 'checkout.html', context)
             else:
                 # Si el formulario de dirección no es válido, vuelve a mostrarlo con los errores
                 return render(request, 'checkout.html', {'form': form})
         elif 'payment-submit' in request.POST:
+            
             formPayment = PaymentForm(request.POST)
+            
             if formPayment.is_valid():
                 print(formPayment.cleaned_data)
                 # Procesar el formulario de pago si es válido
@@ -216,6 +255,7 @@ def checkout(request):
         form = DomicilioForm()
         return render(request, 'checkout.html', {'form': form})
     
+
     
 
 

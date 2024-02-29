@@ -233,16 +233,6 @@
         
       </div>
 
-      <div class="input-radio">
-        <input type="radio" name="payment" id="payment-3">
-        <label for="payment">
-          <span></span>
-          Pago Con Paypal
-        </label>
-        <div class="caption">
-          <p>{{paypal.render}}</p>
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
@@ -308,14 +298,24 @@
               {% endif %}
               <!-- Formulario de pago -->
               {% if formPayment %}
+
                   {{ formPayment|crispy }}
+                  
                   <button type="submit" name="payment-submit" class="btn btn-primary btn-block btn-lg" >Enviar</button>
+                  
               {% endif %}
-          
+              <hr>
+              <br>
+  
             </div>
             
           </form>
+          
         </div>
+        <h4 class="mb-3">Pagar con Paypal</h4>
+              {{ paypal.render }}
+        
+              <br><br><br>
       </div>
 
       <footer class="my-5 pt-5 text-muted text-center text-small">

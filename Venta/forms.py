@@ -32,7 +32,9 @@ class DomicilioForm(forms.Form):
     indicaciones = forms.CharField(label='Indicaciones', max_length=100, required=False)
     nombreInstitucion = forms.CharField(label='Nombre de la institución', max_length=100, required=False)
     mensaje = forms.CharField(label='Añade un mensaje', max_length=100, required=False)
-    
+    payment_method = forms.ChoiceField(label='Método de pago', choices=[('tarjeta', 'Tarjeta'), ('paypal', 'PayPal')], required=True)
+
+
 class PaymentForm(forms.Form):
     cardNumber = forms.CharField(label='Número de tarjeta', max_length=16, required=True)
     expirationDate = forms.CharField(max_length=5, label='Fecha de vencimiento (MM/YY)', help_text='Formato: MM/YY')
