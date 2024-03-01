@@ -262,6 +262,8 @@ def checkout(request):
         form = DomicilioForm()
         return render(request, 'checkout.html', {'form': form})
     
+def profile(request):
+    return render(request, 'profile.html')
 
     
 
