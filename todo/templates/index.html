@@ -152,7 +152,7 @@
                   <a class="nav-link me-4 active" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="{% url 'listProducts' %}">Catalogo</a>
+                  <a class="nav-link me-4" href="#">Catalogo</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ocasiones</a>
@@ -179,11 +179,11 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="{% url 'logout' %}">Cerrar Sesión</a>
+                  <a class="nav-link me-4" href="#">Cerrar Sesión</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="{% url 'login' %}">Iniciar Sesión</a>
+                  <a class="nav-link me-4" href="#">Iniciar Sesión</a>
                 {% endif %}
                 <li class="nav-item">
                   <div class="user-items ps-5">
@@ -203,7 +203,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="{% url 'shoppingCart' %}">
+                        <a href="#">
                           <svg class="cart">
                             <use xlink:href="#cart"></use>
                           </svg>
@@ -305,7 +305,7 @@
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Arreglos Florales</h2>
             <div class="btn-right">
-              <a href="{% url 'listProducts' %}" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
+              <a href="#" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
             </div>
           </div>
           <div class="swiper product-swiper">
@@ -343,7 +343,7 @@
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Plantas</h2>
             <div class="btn-right">
-              <a href="{% url 'listProducts' %}" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
+              <a href="#" class="btn btn-medium btn-normal text-uppercase">Explorar más</a>
             </div>
           </div>
 
@@ -353,7 +353,7 @@
               <div class="swiper-slide">
                 <div class="product-card position-relative">
                   <div class="image-holder">
-                    <a href="{% url 'singleProduct' planta.id %}">
+                    <a href="#">
                       <img src="{{ planta.large_image }}" alt="product-item" class="img-fluid">
                     </a>
                   </div>
@@ -482,7 +482,7 @@
           <div class="d-flex flex-wrap">
             {% for flor in flores %}
             <figure class="instagram-item pe-2">
-              <a href="{% url 'singleProduct' flor.id %}" class="image-link position-relative">
+              <a href="#" class="image-link position-relative">
                 <img src="{{ flor.large_image }}" alt="instagram" class="insta-image">
               </a>
             </figure>
