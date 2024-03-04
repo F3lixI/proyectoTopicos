@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'todo',
     'crispy_forms',
     'crispy_bootstrap5',
+    'paypal.standard.ipn',
     
 ]
 
