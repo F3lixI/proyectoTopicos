@@ -137,3 +137,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+PAYPAL_RECEIVER_EMAIL = "sb-dkuce29711678@business.example.com"
+
+PAYPAL_TEST = True
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+ACCOUNT_EMAIL_REQUIRED=True
