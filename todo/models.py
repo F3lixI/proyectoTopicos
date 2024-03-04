@@ -20,7 +20,7 @@ class Flores(models.Model):
     small_image = models.URLField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    dimension = models.CharField(max_length=20)
+    dimension = models.CharField(max_length=30)
     large_image = models.URLField()
     extra_large_image = models.URLField()
     service = models.CharField(max_length=1)
