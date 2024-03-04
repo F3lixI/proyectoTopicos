@@ -11,4 +11,9 @@ urlpatterns = [
     path('logout', views.cerrarSesion, name='logout'),
     path('buscar', views.search, name='search'),
     path('listProducts/<str:category>/', views.listProductsCategory, name='listProductsCategory'),
+    path('shoppingCart', views.seeShoppingCart, name='shoppingCart'),
+    path('addShoppingCart/<int:pk>/', views.addShoppingCart, name='addShoppingCart'),
+    path('removeShoppingCart/<int:pk>/', views.removeShoppingCart, name='removeShoppingCart'),
+    path('updateShoppingCart/<int:pk>/', views.updateShoppingCart, name='updateShoppingCart'),
+    path('dismuirCantidad/<int:pk>/', views.disminuirCantidad, name='disminuirCantidad'),
 ]
