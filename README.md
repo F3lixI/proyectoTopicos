@@ -1,5 +1,9 @@
 # Floreria
 
+## Deployment
+
+http://35.160.232.178/
+
 ## Clickup
 
 https://sharing.clickup.com/36287435/l/h/6-900902740416-1/c3b009814cda182
