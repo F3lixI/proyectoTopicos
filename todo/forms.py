@@ -16,3 +16,8 @@ class CustomCreationForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
         
+class PrecioForm(forms.Form):
+    precio_min = forms.DecimalField(label='Precio mínimo', required=False)
+    precio_max = forms.DecimalField(label='Precio máximo')
+    
+        
