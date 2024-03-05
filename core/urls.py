@@ -4,7 +4,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('todo.urls'))
+    path('', include('todo.urls')),
+    path('', include('paypal.standard.ipn.urls')),
 ]
 
 if settings.DEBUG:

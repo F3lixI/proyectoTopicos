@@ -257,9 +257,18 @@ def checkout(request):
         # Cargar el formulario de dirección por defecto
         form = DomicilioForm()
         return render(request, 'checkout.html', {'form': form})
-    
+
+from django.contrib.auth.models import User
 def profile(request):
-    return render(request, 'profile.html')
+    
+    user = request.user
+    
+    context = {
+        'user': user,
+    }
+    
+    return render(request, 'profile.html', context)
+    
 
     
     
