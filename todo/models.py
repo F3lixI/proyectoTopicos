@@ -53,7 +53,8 @@ class Clientes(models.Model):
     
     def __str__(self):
         return self.nombre
-    
+
+#Direccion de un cliente    
 class Direccion(models.Model):
     id = models.AutoField(primary_key=True)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
@@ -65,21 +66,7 @@ class Direccion(models.Model):
     
     def __str__(self):
         return self.calle
-    
-class DetalleOrden(models.Model):
-    id = models.AutoField(primary_key=True)
-    productos = models.ForeignKey(Flores, on_delete=models.CASCADE)
-    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
-    metodoPago = models.CharField(max_length=50)
-    indicaciones = models.CharField(max_length=255, null=True, blank=True)
-    mensaje = models.CharField(max_length=255, null=True, blank=True)
-    nombreInstitucion = models.CharField(max_length=255, null=True, blank=True)
-    
-    
-    def __str__(self):
-        return self.id
+
     
 class Orden(models.Model):
     id = models.AutoField(primary_key=True)
@@ -90,6 +77,27 @@ class Orden(models.Model):
     
     def __str__(self):
         return self.fecha
+    
+class DetalleOrden(models.Model):
+    id = models.AutoField(primary_key=True)
+    productos = models.ForeignKey(Flores, on_delete=models.CASCADE)
+    id_orden  = models.ForeignKey(Orden, on_delete=models.CASCADE, null=True, blank=True)
+    #cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    #total = models.DecimalField(max_digits=10, decimal_places=2)
+    #direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
+    calle = models.CharField(max_length=50, null=True, blank=True)
+    numero = models.IntegerField(null=True, blank=True)
+    colonia = models.CharField(max_length=50, null=True, blank=True)
+    ciudad = models.CharField(max_length=50, null=True, blank=True)
+    codigo_postal = models.CharField(max_length=6, null=True, blank=True)
+    metodoPago = models.CharField(max_length=50)
+    indicaciones = models.CharField(max_length=255, null=True, blank=True)
+    mensaje = models.CharField(max_length=255, null=True, blank=True)
+    nombreInstitucion = models.CharField(max_length=255, null=True, blank=True)
+    
+    
+    def __str__(self):
+        return self.id
     
 
 
