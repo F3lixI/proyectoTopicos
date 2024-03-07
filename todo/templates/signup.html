@@ -59,6 +59,8 @@
         }
       }
     </style>
+
+    <br><br><br>
   
     <!-- Jumbotron -->
     <div class="container py-2"> 
@@ -71,14 +73,56 @@
             <div class="card-body p-5 shadow-5 text-center">
 
               
-                <form action="" method="post">
+                <form action="" method="post" class="needs-validation" novalidate method="post">
                   {% csrf_token %}
                   
 
                   {% if user_form %}
                    <h2 class="fw-bold mb-5">Crear Cuenta</h2>
                 
-                  {{ user_form|crispy|safe }} 
+                  <div class="mb-3">
+                    {{ user_form.first_name }}
+                    {{ user_form.first_name.errors }}
+                  </div>
+                  <div class="mb-3">
+                    {{ user_form.last_name }}
+                    {{ user_form.last_name.errors }}
+                  </div>
+                  <div class="mb-3">
+                    {{ user_form.username }}
+                    <span style="color: red;">
+                      {% for error in user_form.username.errors %}
+                          {{ error }}
+                        {% endfor %}
+                    </span>                      
+                  </div>
+                  <div class="mb-3">
+                    {{ user_form.email }}
+                    <span style="color: red;">
+                      {% for error in user_form.email.errors %}
+                          {{ error }}
+                        {% endfor %}
+                    </span>   
+                  </div>
+                  <div class="mb-3">
+                    {{ user_form.password1 }}
+                    <span style="color: red;">
+                      {% for error in user_form.password1.errors %}
+                          {{ error }}
+                        {% endfor %}
+                    </span>
+                  </div>
+                  <div class="mb-3">
+                    {{ user_form.password2 }}
+                    <p style="color: red;">
+                      <strong>
+                        {% for error in user_form.password2.errors %}
+                          {{ error }}
+                        {% endfor %}
+                      </strong>
+                    </p>
+                    </p>
+                  </div>
 
                   <!-- Submit button -->
                     <button type="submit" name="user_form_submit" class="btn btn-primary btn-block mb-4 btn-lg" >
