@@ -5,9 +5,18 @@ from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 import re
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 
 
 class CustomCreationForm(UserCreationForm):
+    
+    # first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
+    # last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+    # username = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    # email = forms.EmailField(required=True, max_length=40, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    # password1 = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), required=True, max_length=20)
+    # password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}), strip=False, required=True, max_length=20)
     
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -15,10 +24,12 @@ class CustomCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, max_length=40)
     password1 = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput, required=True, max_length=20)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput, strip=False, required=True, max_length=20)
-    
+        
     class Meta:
         model = User
         fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
+        
+    
         
 def validate_phone_number(value):
     if not re.match(r'^\d{10}$', value):
@@ -30,6 +41,11 @@ class ClienteForm(forms.Form):
             MaxValueValidator(100, message="La edad debe ser menor o igual a 100.")
         ])
     sexo = forms.ChoiceField(label='Sexo', choices=[('H', 'Hombre'), ('M', 'Mujer'), ('X', 'Otro')], required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super(ClienteForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False
 
 
     
