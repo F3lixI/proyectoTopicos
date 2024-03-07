@@ -18,7 +18,7 @@ class CustomCreationForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
         
-class Cliente(forms.Form):
+class ClienteForm(forms.Form):
     telefono = forms.CharField(label='Teléfono', max_length=10, required=True)
     edad = forms.IntegerField(label='Edad', required=True, validators=[
             MinValueValidator(0, message="La edad debe ser mayor o igual a 0."),

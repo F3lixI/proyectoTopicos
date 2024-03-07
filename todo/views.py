@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . models import Flores
-from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, Cliente
+from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
@@ -20,14 +20,30 @@ def index(request):
     
 def signup(request):
     if request.method == 'POST':
-        form = CustomCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
+        if 'user_form_submit' in request.POST:
+            
+            user_form = CustomCreationForm(request.POST)
+            
+            if user_form.is_valid():
+                user_form.save()
+                
+                cliente_form = ClienteForm()
+                
+                return render(request, 'signup.html', {'cliente_form': cliente_form})
+            else:
+                return render(request, 'signup.html', {'user_form': user_form})
+        elif 'cliente_form_submit' in request.POST:
+            cliente_form = ClienteForm(request.POST)
+            
+            if cliente_form.is_valid():
+                return redirect('login')  
+            else:
+                return render(request, 'signup.html', {'cliente_form': cliente_form})
     else:
-        form = CustomCreationForm()
+        user_form = CustomCreationForm()
     
-    return render(request, 'signup.html', {'form': form})
+        return render(request, 'signup.html', {'user_form': user_form})
+   
 
 def iniciarSesion(request):
     if request.method == 'POST':
@@ -201,7 +217,6 @@ def checkout(request):
                 
             if form.is_valid():
                 
-                
                 if metodo_pago == 'tarjeta':
                     formPayment = PaymentForm()
                     return render(request, 'checkout.html', {'formPayment': formPayment})
@@ -258,7 +273,7 @@ def checkout(request):
         form = DomicilioForm()
         return render(request, 'checkout.html', {'form': form})
 
-from django.contrib.auth.models import User
+
 def profile(request):
     
     user = request.user
