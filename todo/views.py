@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . models import Flores
-from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm
+from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, Cliente
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q

@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class CustomCreationForm(UserCreationForm):
     
@@ -15,6 +17,15 @@ class CustomCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
+        
+class Cliente(forms.Form):
+    telefono = forms.CharField(label='Teléfono', max_length=10, required=True)
+    edad = forms.IntegerField(label='Edad', required=True, validators=[
+            MinValueValidator(0, message="La edad debe ser mayor o igual a 0."),
+            MaxValueValidator(100, message="La edad debe ser menor o igual a 100.")
+        ])
+    sexo = forms.ChoiceField(label='Sexo', choices=[('H', 'Hombre'), ('M', 'Mujer'), ('X', 'Otro')], required=True)
+    
         
 class PrecioForm(forms.Form):
     precio_min = forms.DecimalField(label='Precio mínimo', required=False)

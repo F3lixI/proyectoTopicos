@@ -79,16 +79,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
+import socket
 
-# if DEBUG:
-#     DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# else:
-DATABASES = {
+hostname = socket.gethostname()
+
+if hostname == 'LAPTOP-EVKSLQQ7':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'floreriadb',
@@ -98,6 +101,7 @@ DATABASES = {
         'PASSWORD': '4uFbwWAVjmc+'
     }
 }
+
     
 
 
