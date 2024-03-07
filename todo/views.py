@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from . models import Flores, Clientes
+from . models import Flores, Clientes, Categoria
 from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from django.utils import timezone
 
@@ -234,7 +235,7 @@ def disminuirCantidad(request, pk):
     request.session['carrito'] = carrito
     
     return redirect('shoppingCart')
-
+@login_required
 def checkout(request):
     if request.method == 'POST':
         if 'direccion-submit' in request.POST:
@@ -303,12 +304,22 @@ def checkout(request):
         return render(request, 'checkout.html', {'form': form})
 
 
+
+@login_required
 def profile(request):
+    
+    user_id = request.user.id
+    
+    cliente = Clientes.objects.get(id=user_id)
     
     user = request.user
     
+    domicilioform = DomicilioForm()
+    
     context = {
         'user': user,
+        'cliente': cliente,
+        'domicilioform': domicilioform,
     }
     
     return render(request, 'profile.html', context)

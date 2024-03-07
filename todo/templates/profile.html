@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -174,9 +175,7 @@
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#footer">Contacto</a>
-                </li>
+                
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link me-4" href="{% url 'logout' %}">Cerrar Sesión</a>
@@ -306,7 +305,7 @@
                       <p class="mb-0">Phone</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">(656) 234-5678</p>
+                      <p class="text-muted mb-0">{{cliente.telefono}}</p>
                     </div>
                   </div>
                   <hr>
@@ -319,14 +318,37 @@
                     </div>
                   </div> -->
                   
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-sm-3">
                       <p class="mb-0">Address</p>
                     </div>
                     <div class="col-sm-9">
                       <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
                     </div>
-                  </div>
+                  </div> -->
+                  <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0"><label for="street_name" class="mb-0">Street Name</label></p>
+                        <input type="text" id="street_name" name="street_name" class="form-control" placeholder="Enter your street name">
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><label for="house_number" class="mb-0">House Number</label></p>
+                        <input type="text" id="house_number" name="house_number" class="form-control" placeholder="Enter your house number">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-6">
+                        <p class="mb-0"><label for="neighborhood" class="mb-0">Neighborhood</label></p>
+                        <input type="text" id="neighborhood" name="neighborhood" class="form-control" placeholder="Enter your neighborhood">
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><label for="postal_code" class="mb-0">Postal Code</label></p>
+                        <input type="text" id="postal_code" name="postal_code" class="form-control" placeholder="Enter your postal code">
+                    </div>
+                </div>
+                
+              
+                
                 </div>
               </div>
               <div class="row">
@@ -335,6 +357,8 @@
                     <div class="card-body">
                       <p class="mb-4"><span class="text-primary font-italic me-1">Mis compras</span> 29 Feb 2024
                       </p>
+
+                      
                       <!-- <p class="mb-1" style="font-size: .77rem;">Web Design</p>
                       <div class="progress rounded" style="height: 5px;">
                         <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"

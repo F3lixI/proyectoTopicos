@@ -160,3 +160,6 @@ PAYPAL_TEST = True
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ACCOUNT_EMAIL_REQUIRED=True
+
+#redirige a login si no esta logeado
+LOGIN_URL = 'login'
