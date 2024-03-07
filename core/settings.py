@@ -83,22 +83,22 @@ import socket
 
 hostname = socket.gethostname()
 
-if hostname == 'LAPTOP-EVKSLQQ7':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
+# if hostname == 'LAPTOP-EVKSLQQ7':
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'floreriadb',
-        'HOST': 'localhost',
+        'NAME': 'floreriadbprod',
+        'HOST': 'ls-d733c21d7c44c6036b323a5575012ee95b330dd9.czg8iwqse9k3.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
-        'USER': 'postgres',
-        'PASSWORD': '4uFbwWAVjmc+'
+        'USER': 'dbmasteruser',
+        'PASSWORD': 'Jk22l^(-!d?HNJ=(b|4T,x_0;f~-t&Ap'
     }
 }
 

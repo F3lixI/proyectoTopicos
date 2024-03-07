@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from . models import Flores
+from . models import Flores, Clientes
 from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
+
+from django.utils import timezone
 
 from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
@@ -25,6 +27,9 @@ def signup(request):
             user_form = CustomCreationForm(request.POST)
             
             if user_form.is_valid():
+                
+                request.session['user_form_data'] = user_form.cleaned_data
+                
                 user_form.save()
                 
                 cliente_form = ClienteForm()
@@ -36,6 +41,30 @@ def signup(request):
             cliente_form = ClienteForm(request.POST)
             
             if cliente_form.is_valid():
+                
+                user_form_data = request.session.pop('user_form_data', None)
+
+                username=user_form_data['username'],
+                email=user_form_data['email'],
+                password=user_form_data['password1'], 
+                first_name=user_form_data['first_name'],
+                last_name=user_form_data['last_name']
+                telefono = cliente_form.cleaned_data['telefono']
+                edad = cliente_form.cleaned_data['edad']
+                sexo = cliente_form.cleaned_data['sexo']
+                # Crear el cliente con el usuario asociado
+                cliente = Clientes(
+                    username = username,
+                    email=email,
+                    password=password,
+                    nombre=first_name,
+                    apellido=last_name,
+                    fecha_creacion=timezone.now(),
+                    telefono=telefono,
+                    edad=edad,
+                    sexo=sexo
+                )
+                cliente.save()
                 return redirect('login')  
             else:
                 return render(request, 'signup.html', {'cliente_form': cliente_form})
