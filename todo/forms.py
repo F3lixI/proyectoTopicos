@@ -3,28 +3,35 @@ from django.contrib.auth.models import User
 from django import forms
 
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+import re
 
 
 class CustomCreationForm(UserCreationForm):
     
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
-    username = forms.CharField(max_length=150, required=True)
-    email = forms.EmailField(required=True)
-    password1 = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput, required=True)
-    password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput, strip=False, required=True)
+    username = forms.CharField(max_length=20, required=True)
+    email = forms.EmailField(required=True, max_length=40)
+    password1 = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput, required=True, max_length=20)
+    password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput, strip=False, required=True, max_length=20)
     
     class Meta:
         model = User
         fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
         
+def validate_phone_number(value):
+    if not re.match(r'^\d{10}$', value):
+        raise ValidationError('El número de teléfono debe tener exactamente 10 dígitos.')
 class ClienteForm(forms.Form):
-    telefono = forms.CharField(label='Teléfono', max_length=10, required=True)
+    telefono = forms.CharField(label='Teléfono', max_length=10, validators=[validate_phone_number],required=True)
     edad = forms.IntegerField(label='Edad', required=True, validators=[
             MinValueValidator(0, message="La edad debe ser mayor o igual a 0."),
             MaxValueValidator(100, message="La edad debe ser menor o igual a 100.")
         ])
     sexo = forms.ChoiceField(label='Sexo', choices=[('H', 'Hombre'), ('M', 'Mujer'), ('X', 'Otro')], required=True)
+
+
     
         
 class PrecioForm(forms.Form):
