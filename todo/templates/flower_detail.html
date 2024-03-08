@@ -95,8 +95,8 @@
     <div class="search-popup">
         <div class="search-popup-container">
 
-          <form role="search" method="get" class="search-form" action="">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="s" />
+          <form role="search" method="get" class="search-form" action="{% url 'search' %}">
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="q" />
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
           </form>
 
@@ -142,7 +142,7 @@
           </button>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
             <div class="offcanvas-header px-4 pb-0">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="{% static 'images\shop\main-logo.png' %}" class="logo">
               </a>
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
@@ -150,10 +150,10 @@
             <div class="offcanvas-body">
               <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link me-4 active" href="#billboard">Inicio</a>
+                  <a class="nav-link me-4 active" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#company-services">Catalogo</a>
+                  <a class="nav-link me-4" href="{% url 'listProducts' %}">Catalogo</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ocasiones</a>
@@ -189,14 +189,14 @@
                         </a>
                       </li>
                       <li class="pe-3">
-                        <a href="#">
+                        <a href="{% url  'profile' %}">
                           <svg class="user">
                             <use xlink:href="#user"></use>
                           </svg>
                         </a>
                       </li>
                       <li>
-                        <a href="cart.html">
+                        <a href="{% url 'shoppingCart' %}">
                           <svg class="cart">
                             <use xlink:href="#cart"></use>
                           </svg>
@@ -224,10 +224,12 @@
                     </div>
                     <p class="lead" style="color: rgb(0, 0, 0);">{{ flor.description }}</p>
                     <div class="d-flex">
-                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                      <!-- <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" /> -->
+                        <label class="form-control text-center me-3" style="max-width: 3rem" for="">1</label>
                         <button class="btn btn-outline-dark flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
-                            Añadir al Carrito
+                            <a href="{% url 'addShoppingCart' pk=flor.id %}">Añadir al Carrito</a>
+                            
                         </button>
                     </div>
                 
@@ -268,7 +270,7 @@
             </a>
                 <!-- Product actions-->
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Añadir al Carrito</a></div>
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'addShoppingCart' pk=flor.id %}">Añadir al Carrito</a></div>
                 </div>
             </div>
         

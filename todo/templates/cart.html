@@ -97,8 +97,8 @@
     <div class="search-popup">
         <div class="search-popup-container">
 
-          <form role="search" method="get" class="search-form" action="">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="s" />
+          <form role="search" method="get" class="search-form" action="{% url 'search' %}">
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="q" />
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
           </form>
 
@@ -152,7 +152,7 @@
             <div class="offcanvas-body">
               <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link me-4 active" href="{% url 'index' %}">Inicio</a>
+                  <a class="nav-link me-4" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="{% url 'listProducts' %}">Catalogo</a>
@@ -192,21 +192,21 @@
                   <div class="user-items ps-5">
                     <ul class="d-flex justify-content-end list-unstyled">
                       <li class="search-item pe-3">
-                        <a href="#" class="search-button">
+                        <a href="" class="search-button">
                           <svg class="search">
                             <use xlink:href="#search"></use>
                           </svg>
                         </a>
                       </li>
                       <li class="pe-3">
-                        <a href="#">
+                        <a href="{% url 'profile' %}">
                           <svg class="user">
                             <use xlink:href="#user"></use>
                           </svg>
                         </a>
                       </li>
                       <li>
-                        <a href="cart.html">
+                        <a href="{% url 'shoppingCart' %}">
                           <svg class="cart">
                             <use xlink:href="#cart"></use>
                           </svg>
@@ -335,10 +335,7 @@
                   <h5 class="widget-title pb-2">Enlaces directos</h5>
                   <ul class="menu-list list-unstyled text-uppercase">
                     <li class="menu-item pb-2">
-                      <a href="#">Inicio</a>
-                    </li>
-                    <li class="menu-item pb-2">
-                      <a href="#">Nosotros</a>
+                      <a href="{% url 'index' %}">Inicio</a>
                     </li>
                     <li class="menu-item pb-2">
                       <a href="#">Tienda</a>
