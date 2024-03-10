@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Flores, Clientes, Categoria
+from . models import Flores, Clientes, Categoria, DetalleOrden, Orden
 from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
@@ -247,8 +247,40 @@ def checkout(request):
                 
             if form.is_valid():
                 
+                #obtiene el carrito de la sesion
+                carrito = request.session.get('carrito', {})
+                
+                #calcula el total 
+                flores = Flores.objects.filter(id__in=carrito.keys())
+                total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+                                
+                orden = Orden()
+                
+                orden.cliente = request.user
+                orden.fecha = timezone.now()
+                orden.total = total
+                orden.estado = 'aceptado'
+                    
+                orden.save()
+                
+                detalle_orden = DetalleOrden()
+                #detalle_orden.productos = flores
+                detalle_orden.id_orden = Orden.objects.latest('id')
+                detalle_orden.calle = form.cleaned_data['calle']
+                detalle_orden.numero = form.cleaned_data['numero']
+                detalle_orden.colonia = form.cleaned_data['colonia']
+                detalle_orden.ciudad = form.cleaned_data['ciudad']
+                detalle_orden.codigo_postal = form.cleaned_data['cp']
+                detalle_orden.metodoPago = 'tarjeta'
+                detalle_orden.indicaciones = form.cleaned_data['indicaciones']
+                detalle_orden.mensaje = form.cleaned_data['mensaje']
+                detalle_orden.nombreInstitucion = form.cleaned_data['nombreInstitucion']
+                detalle_orden.save()
+                
+                detalle_orden.productos.add(*flores)
+                
                 if metodo_pago == 'tarjeta':
-                    formPayment = PaymentForm()
+                    formPayment = PaymentForm()                        
                     return render(request, 'checkout.html', {'formPayment': formPayment})
                 else:
                     host = request.get_host()
@@ -290,11 +322,12 @@ def checkout(request):
             formPayment = PaymentForm(request.POST)
             
             if formPayment.is_valid():
-                print(formPayment.cleaned_data)
-                # Procesar el formulario de pago si es válido
-                # Aquí puedes realizar las acciones necesarias, como guardar la información y completar la compra
-                # Después de procesar el pago, podrías redirigir al usuario a una página de confirmación o a donde desees
-                return redirect('index')
+                
+                #elimina el carrito 
+                del request.session['carrito']
+                
+                return redirect('profile')
+                
             else:
                 # Si el formulario de pago no es válido, vuelve a mostrarlo con los errores
                 return render(request, 'checkout.html', {'formPayment': formPayment})
@@ -316,14 +349,29 @@ def profile(request):
     
     domicilioform = DomicilioForm()
     
+    #consulta orden asociado al usuario
+    ordenes = Orden.objects.filter(id=user_id)
+    
+    #consulta el id de las ordenes
+    ordenes_id = Orden.objects.filter(id=user_id).values('id')
+    
+    #luego consulta los detalles de las ordenes
+    detalle_orden = DetalleOrden.objects.filter(id_orden=1)
+    
+
     context = {
         'user': user,
         'cliente': cliente,
         'domicilioform': domicilioform,
+        'ordenes': ordenes,
+        'detalle_orden': detalle_orden,
     }
     
-    return render(request, 'profile.html', context)
+    #imprime el diccionario ordenes
+    print(str(detalle_orden))
     
+    return render(request, 'profile.html', context)
+
 
     
     

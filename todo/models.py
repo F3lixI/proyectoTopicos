@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 #Clase mostrada en el ejemplo
 class ToDo(models.Model):
@@ -70,17 +71,17 @@ class Direccion(models.Model):
     
 class Orden(models.Model):
     id = models.AutoField(primary_key=True)
-    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha = models.DateTimeField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
     estado = models.CharField(max_length=50)
     
     def __str__(self):
-        return self.fecha
+        return str(self.id)
     
 class DetalleOrden(models.Model):
     id = models.AutoField(primary_key=True)
-    productos = models.ForeignKey(Flores, on_delete=models.CASCADE)
+    productos = models.ManyToManyField(Flores)
     id_orden  = models.ForeignKey(Orden, on_delete=models.CASCADE, null=True, blank=True)
     #cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     #total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -97,7 +98,7 @@ class DetalleOrden(models.Model):
     
     
     def __str__(self):
-        return self.id
+        return str(self.id)
     
 
 
