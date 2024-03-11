@@ -271,7 +271,7 @@ def checkout(request):
                 detalle_orden.colonia = form.cleaned_data['colonia']
                 detalle_orden.ciudad = form.cleaned_data['ciudad']
                 detalle_orden.codigo_postal = form.cleaned_data['cp']
-                detalle_orden.metodoPago = 'tarjeta'
+                detalle_orden.metodoPago = metodo_pago
                 detalle_orden.indicaciones = form.cleaned_data['indicaciones']
                 detalle_orden.mensaje = form.cleaned_data['mensaje']
                 detalle_orden.nombreInstitucion = form.cleaned_data['nombreInstitucion']
@@ -334,7 +334,18 @@ def checkout(request):
     else:
         # Cargar el formulario de dirección por defecto
         form = DomicilioForm()
-        return render(request, 'checkout.html', {'form': form})
+        
+        #obtiene los datos del carrito y los manda
+        carrito = request.session.get('carrito', {})
+        
+        flores = Flores.objects.filter(id__in=carrito.keys())
+        
+        total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+        
+        cantidad = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
+        
+        return render(request, 'checkout.html', {'form': form, 'flores': flores, 'total': total, 'cantidad': cantidad})
+        
 
 
 

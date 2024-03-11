@@ -150,7 +150,7 @@
             <div class="offcanvas-body">
               <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link me-4 active" href="{% url 'index' %}">Inicio</a>
+                  <a class="nav-link me-4" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="{% url 'listProducts' %}">Catalogo</a>
@@ -241,7 +241,7 @@
                 <div class="card-body text-center">
                   <!-- https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp -->
                   
-                  <img src="https://api.multiavatar.com/Binx Bond.png" alt="avatar"
+                  <img src="https://ui-avatars.com/api/?name={{ user.first_name|urlencode }}+{{ user.last_name|urlencode }}&background=0D8ABC&color=fff&size=128" alt="Avatar de {{ nombre }} {{ apellido }}"
                     class="rounded-circle img-fluid" style="width: 150px;">
                   <h5 class="my-3">{{user.username}}</h5>
                   <!-- <p class="text-muted mb-1">Hello</p> -->
@@ -351,37 +351,9 @@
                 </div>
               </form>  
                    
-              <!-- <form action="{% url 'editAddress' %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{ domiciliocliente.calle }}
-                </div>
-                <div class="mb-3">
-                    {{ domiciliocliente.numero }}
-                </div>
-                <div class="mb-3">
-                    {{ domiciliocliente.colonia }}
-                </div>
-                <div class="mb-3">
-                    {{ domiciliocliente.cp }}
-                </div>
-                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-            </form> -->
+              
             
               
-              <!-- <div class="col-md-6">
-                {% if form.errors %}
-                  <div class="alert alert-danger">
-                    <ul>
-                      {% for field in form %}
-                        {% for error in field.errors %}
-                          <li>{{ error }}</li>
-                        {% endfor %}
-                      {% endfor %}
-                    </ul>
-                  </div>
-                {% endif %}
-              </div> -->
                 
               
                 
