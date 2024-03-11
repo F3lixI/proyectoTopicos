@@ -325,27 +325,63 @@
                     <div class="col-sm-9">
                       <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
                     </div>
-                  </div> -->
+                  </div> --> 
+
+                  <form action="{% url 'profile' %}" method="post">
+                    {% csrf_token %}
                   <div class="row">
                     <div class="col-sm-6">
-                        <p class="mb-0"><label for="street_name" class="mb-0">Street Name</label></p>
-                        <input type="text" id="street_name" name="street_name" class="form-control" placeholder="Enter your street name">
+                        {{ domiciliocliente.calle }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><label for="house_number" class="mb-0">House Number</label></p>
-                        <input type="text" id="house_number" name="house_number" class="form-control" placeholder="Enter your house number">
+                        {{ domiciliocliente.numero }}
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        <p class="mb-0"><label for="neighborhood" class="mb-0">Neighborhood</label></p>
-                        <input type="text" id="neighborhood" name="neighborhood" class="form-control" placeholder="Enter your neighborhood">
+                        {{ domiciliocliente.colonia }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><label for="postal_code" class="mb-0">Postal Code</label></p>
-                        <input type="text" id="postal_code" name="postal_code" class="form-control" placeholder="Enter your postal code">
+                        {{ domiciliocliente.cp }}
                     </div>
                 </div>
+                <br>
+                <div>
+                  <button type="submit" class="btn btn-primary" >Guardar Cambios</button>
+                </div>
+              </form>  
+                   
+              <!-- <form action="{% url 'editAddress' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ domiciliocliente.calle }}
+                </div>
+                <div class="mb-3">
+                    {{ domiciliocliente.numero }}
+                </div>
+                <div class="mb-3">
+                    {{ domiciliocliente.colonia }}
+                </div>
+                <div class="mb-3">
+                    {{ domiciliocliente.cp }}
+                </div>
+                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+            </form> -->
+            
+              
+              <!-- <div class="col-md-6">
+                {% if form.errors %}
+                  <div class="alert alert-danger">
+                    <ul>
+                      {% for field in form %}
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              </div> -->
                 
               
                 

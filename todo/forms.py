@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Direccion
 from django import forms
 
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -95,5 +96,14 @@ class PaymentForm(forms.Form):
     cvv = forms.IntegerField(label='CVV', required=True)
     cardHolder = forms.CharField(label='Nombre del titular', max_length=60, required=True)
     
-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column
+class DomicilioCliente(forms.Form):
+    calle = forms.CharField(label='Calle', max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Calle'}))
+    numero = forms.IntegerField(label='Número', required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero'}))
+    colonia = forms.CharField(label='Colonia', max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Colonia'}))
+    cp = forms.CharField(label='Código Postal', max_length=5, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código Postal'}))
     
+    class Meta:
+        model: Direccion
+        fields = ['calle', 'numero', 'colonia', 'cp']

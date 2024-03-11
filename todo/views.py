@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from . models import Flores, Clientes, Categoria, DetalleOrden, Orden
-from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm
+from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion
+from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm, DomicilioCliente
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
@@ -341,51 +341,87 @@ def checkout(request):
 @login_required
 def profile(request):
     
-    user_id = request.user.id
-    cliente = Clientes.objects.get(id=user_id)
-    user = request.user
-    
-    domicilioform = DomicilioForm()
-    
-    #consulta las ordenes del cliente
-    ordenes = Orden.objects.filter(cliente_id=user_id)
-    
-    #guarda los id de las ordenes para consultar los detalles de cada orden
-    ids = [orden.id for orden in ordenes]
-    
-    #consulta los detalles de las ordenes
-    detalles = DetalleOrden.objects.filter(id_orden_id__in=ids)
-    
-    #flores = []
-    
-    flores = []
-
-    for detalle in detalles:
-        for flor in detalle.productos.all():
-            flores.append(flor.name)
-
-    cantidadFlores = {}
-
-    for flor in flores:
-        cantidadFlores[flor] = cantidadFlores.get(flor, 0) + 1
+    if request.method == 'POST':
         
-    print('helllllo',cantidadFlores)
+        form = DomicilioCliente(request.POST)
+        
+        if form.is_valid():
+            
+            user_id = request.user.id
+            
+            cliente = Clientes.objects.get(id=user_id)
+            
+            try:
+                direccion = Direccion.objects.get(cliente=cliente)
+            except Direccion.DoesNotExist:
+                direccion = Direccion(cliente_id=cliente)
+            
+            direccion.calle = form.cleaned_data['calle']
+            direccion.numero = form.cleaned_data['numero']
+            direccion.colonia = form.cleaned_data['colonia']
+            direccion.ciudad = 'Juarez'
+            direccion.codigo_postal = form.cleaned_data['cp']
+            direccion.save()
+            
+            return redirect('profile')
+        else:
+            return render(request, 'profile.html', {'form': form})
+    else:
+        
+        user_id = request.user.id
+        cliente = Clientes.objects.get(id=user_id)
+        user = request.user
+        
+        #consulta la direccion del cliente
+        direccion = Direccion.objects.get(cliente_id=user_id)
+        
+        #domiciliocliente = DomicilioCliente()
+        
+        domiciliocliente = DomicilioCliente(initial={
+            'calle': direccion.calle,
+            'numero': direccion.numero,
+            'colonia': direccion.colonia,
+            'cp': direccion.codigo_postal,
+        })
+        
+        #consulta las ordenes del cliente
+        ordenes = Orden.objects.filter(cliente_id=user_id)
+        
+        #guarda los id de las ordenes para consultar los detalles de cada orden
+        ids = [orden.id for orden in ordenes]
+        
+        #consulta los detalles de las ordenes
+        detalles = DetalleOrden.objects.filter(id_orden_id__in=ids)
+        
+        #flores = []
+        
+        flores = []
 
-    cantidadFlores = [(flor, cantidad) for flor, cantidad in cantidadFlores.items()]
-    
+        for detalle in detalles:
+            for flor in detalle.productos.all():
+                flores.append(flor.name)
 
-    context = {
-        'user': user,
-        'cliente': cliente,
-        'domicilioform': domicilioform,
-        'ordenes': ordenes,
-        'detalles': detalles,
-        #'flores' : flores,
-        'cantidadFlores': cantidadFlores
-    }
-    
-    
-    return render(request, 'profile.html', context)
+        cantidadFlores = {}
+
+        for flor in flores:
+            cantidadFlores[flor] = cantidadFlores.get(flor, 0) + 1
+            
+        #print('helllllo',cantidadFlores)
+
+        cantidadFlores = [(flor, cantidad) for flor, cantidad in cantidadFlores.items()]
+
+        context = {
+            'user': user,
+            'cliente': cliente,
+            'domiciliocliente': domiciliocliente,
+            'ordenes': ordenes,
+            'detalles': detalles,
+            #'flores' : flores,
+            'cantidadFlores': cantidadFlores,
+            
+        }
+        
+        return render(request, 'profile.html', context)
 
 
     
