@@ -342,21 +342,36 @@ def checkout(request):
 def profile(request):
     
     user_id = request.user.id
-    
     cliente = Clientes.objects.get(id=user_id)
-    
     user = request.user
     
     domicilioform = DomicilioForm()
     
-    #consulta orden asociado al usuario
-    ordenes = Orden.objects.filter(id=user_id)
+    #consulta las ordenes del cliente
+    ordenes = Orden.objects.filter(cliente_id=user_id)
     
-    #consulta el id de las ordenes
-    ordenes_id = Orden.objects.filter(id=user_id).values('id')
+    #guarda los id de las ordenes para consultar los detalles de cada orden
+    ids = [orden.id for orden in ordenes]
     
-    #luego consulta los detalles de las ordenes
-    detalle_orden = DetalleOrden.objects.filter(id_orden=1)
+    #consulta los detalles de las ordenes
+    detalles = DetalleOrden.objects.filter(id_orden_id__in=ids)
+    
+    #flores = []
+    
+    flores = []
+
+    for detalle in detalles:
+        for flor in detalle.productos.all():
+            flores.append(flor.name)
+
+    cantidadFlores = {}
+
+    for flor in flores:
+        cantidadFlores[flor] = cantidadFlores.get(flor, 0) + 1
+        
+    print('helllllo',cantidadFlores)
+
+    cantidadFlores = [(flor, cantidad) for flor, cantidad in cantidadFlores.items()]
     
 
     context = {
@@ -364,11 +379,11 @@ def profile(request):
         'cliente': cliente,
         'domicilioform': domicilioform,
         'ordenes': ordenes,
-        'detalle_orden': detalle_orden,
+        'detalles': detalles,
+        #'flores' : flores,
+        'cantidadFlores': cantidadFlores
     }
     
-    #imprime el diccionario ordenes
-    print(str(detalle_orden))
     
     return render(request, 'profile.html', context)
 

@@ -77,15 +77,12 @@ class Orden(models.Model):
     estado = models.CharField(max_length=50)
     
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + " " + str(self.cliente) + " " + str(self.fecha) + " " + str(self.total) + " " + str(self.estado)
     
 class DetalleOrden(models.Model):
     id = models.AutoField(primary_key=True)
     productos = models.ManyToManyField(Flores)
     id_orden  = models.ForeignKey(Orden, on_delete=models.CASCADE, null=True, blank=True)
-    #cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    #total = models.DecimalField(max_digits=10, decimal_places=2)
-    #direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
     calle = models.CharField(max_length=50, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
     colonia = models.CharField(max_length=50, null=True, blank=True)
