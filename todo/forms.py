@@ -107,6 +107,13 @@ class DomicilioCliente(forms.Form):
     
         
 class ReviewForm(forms.ModelForm):
+    
+    def clean_calificacion(self):
+        calificacion = self.cleaned_data.get('calificacion')
+        if calificacion not in range(0, 6):  # Verifica si la calificación está dentro del rango de 1 a 5
+            raise forms.ValidationError("La calificación debe estar entre 0 y 5.")
+        return calificacion
+    
     class Meta:
         model = Reviews
         fields = ['calificacion', 'comentario']

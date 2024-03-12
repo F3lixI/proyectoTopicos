@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion, Reviews
 from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm, DomicilioCliente, ReviewForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -104,10 +104,15 @@ def listProducts(request):
 
 def singleProduct(request, pk):
     
+    producto = get_object_or_404(Flores, pk=pk)
+
+    # Verificar si el usuario ya ha realizado un comentario para este producto
+    existing_review = Reviews.objects.filter(producto=producto, cliente=request.user).exists()
+    
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         
-        if form.is_valid():
+        if form.is_valid() and not existing_review:
             
             review = Reviews()
             
@@ -120,10 +125,31 @@ def singleProduct(request, pk):
             review.save()
            
             return redirect('singleProduct', pk=pk)
+        elif form.is_valid() and existing_review:      
+                  
+            review = Reviews.objects.get(producto=producto, cliente=request.user)
+            
+            review.calificacion = form.cleaned_data['calificacion']
+            review.comentario = form.cleaned_data['comentario']
+            review.save()
+            return redirect('singleProduct', pk=pk)
         else:
-            return render(request, 'flower_detail.html', {'form': form})
+            
+            flor = Flores.objects.get(pk=pk)
+            
+            flores = Flores.objects.all()[:4]    
+            
+            reviews = Reviews.objects.filter(producto_id=pk).order_by('-fecha_creacion')
+            
+            users = [review.cliente for review in reviews]
+            
+            return render(request, 'flower_detail.html', {'flor': flor, 'flores': flores, 'form': form, 'reviews': reviews, 'users': users})
+
     else:
-        form = ReviewForm()
+        #form = ReviewForm()
+        existing_review_instance = Reviews.objects.filter(producto=producto, cliente=request.user).first()
+        # Inicializar el formulario con la instancia del comentario existente si existe
+        form = ReviewForm(instance=existing_review_instance)
         
         flor = Flores.objects.get(pk=pk)
         
