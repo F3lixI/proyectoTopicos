@@ -98,7 +98,16 @@ class DetalleOrden(models.Model):
         return str(self.id)
     
 
-
+class Reviews(models.Model):
+    id = models.AutoField(primary_key=True)
+    producto = models.ForeignKey(Flores, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+    calificacion = models.IntegerField(default=0)
+    comentario = models.TextField(max_length=250, null=True, blank=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return str(self.id) + " " + str(self.producto) + " " + str(self.cliente) + " " + str(self.calificacion) + " " + str(self.comentario)
 
     
     

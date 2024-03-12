@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,6 +21,8 @@
     <!-- script
     ================================================== -->
     <script src="{% static 'js\modernizr.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
   </head>
   <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -232,19 +235,60 @@
                             
                         </button>
                     </div>
-                
-                    <h2 class="fw-bolder mt-5">Leave a Comment</h2>
-                    <form>
-                      <div class="mb-3">
-                        <label for="comment" class="form-label"></label>
-                        <textarea class="form-control" id="comment" rows="3" placeholder="Enter your comment"></textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>              
-                 
+
                 </div>
             </div>
         </div>
+    </section>
+
+    <section  class="py-5 bg-light">
+      <div class="container my-5 py-5 text-dark">
+        <div class="row d-flex justify-content-left">
+          <div class="col-md-12 col-lg-10 col-xl-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="text-dark mb-0">Comentarios</h4>
+            </div>
+    
+            {% for review in reviews %}
+            <div class="card mb-3">
+              <div class="card-body">
+                {% for user in users %}
+                  {% if review.cliente_id == user.id %}
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="https://ui-avatars.com/api/?name={{ user.first_name|urlencode }}+{{ user.last_name|urlencode }}&background=0D8ABC&color=fff&size=128" alt="avatar" width="40"
+                    height="40" />
+                  <div class="w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h6 class="text-primary fw-bold mb-0">
+                        {{ user.first_name }} {{ user.last_name }}
+                        <span class="text-dark ms-2">{{ review.comentario }} </span>
+                      </h6>
+                      <p class="mb-0">{{ review.fecha_creacion }}</p>
+                    </div>
+                    <p class="mb-0">Calificación: {{ review.calificacion }}</p>
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+          <h2 class="fw-bolder mt-5">Leave a Comment</h2>
+                    
+                    <form action="" method="post">
+                      {% csrf_token %}
+
+                      {{ form | crispy }}
+
+                      <button class="btn btn-primary">Enviar comentario</button>
+                    </form>
+        </div>
+        
+      </div>
+      
     </section>
 
     <!-- productos relacionados-->
@@ -405,5 +449,7 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/plugins.js '%}"></script>
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    
+  
   </body>
 </html>

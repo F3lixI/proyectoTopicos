@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion
-from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm, DomicilioCliente
+from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion, Reviews
+from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm, DomicilioCliente, ReviewForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from django.utils import timezone
 
@@ -103,11 +104,36 @@ def listProducts(request):
 
 def singleProduct(request, pk):
     
-    flor = Flores.objects.get(pk=pk)
-    
-    flores = Flores.objects.all()[:4]
-    
-    return render(request, 'flower_detail.html', {'flor': flor, 'flores': flores})
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        
+        if form.is_valid():
+            
+            review = Reviews()
+            
+            review.cliente = User.objects.get(pk=request.user.id)
+            review.producto = Flores.objects.get(pk=pk)
+            review.calificacion = form.cleaned_data['calificacion']
+            review.comentario = form.cleaned_data['comentario']
+            review.fecha_creacion = timezone.now()
+            
+            review.save()
+           
+            return redirect('singleProduct', pk=pk)
+        else:
+            return render(request, 'flower_detail.html', {'form': form})
+    else:
+        form = ReviewForm()
+        
+        flor = Flores.objects.get(pk=pk)
+        
+        flores = Flores.objects.all()[:4]    
+        
+        reviews = Reviews.objects.filter(producto_id=pk).order_by('-fecha_creacion')
+        
+        users = [review.cliente for review in reviews]
+        
+    return render(request, 'flower_detail.html', {'flor': flor, 'flores': flores, 'form': form, 'reviews': reviews, 'users': users})
 
 def cerrarSesion(request):
     logout(request)
@@ -193,9 +219,23 @@ def seeShoppingCart(request):
     total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
     
     #cantidad = {flor.id: carrito[str(flor.id)] for flor in flores}
-    cantidad = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
+    quantity = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
     
-    return render(request, 'cart.html', {'flores': flores, 'total': total, 'cantidad': cantidad})
+    detalles_carrito = {}
+
+    for producto_id, cantidad in carrito.items():
+        producto = Flores.objects.get(pk=producto_id)
+        subtotal = producto.price * cantidad
+        detalles_carrito[producto_id] = {
+            'nombre': producto.name,
+            'cantidad': cantidad,
+            'precio_unitario': producto.price,
+            'subtotal': subtotal,
+        }
+
+    total_carrito = sum(item['subtotal'] for item in detalles_carrito.values())
+    
+    return render(request, 'cart.html', {'flores': flores, 'total': total, 'quantity': quantity, 'total_carrito': total_carrito})
 
 def addShoppingCart(request, pk):
     
@@ -280,8 +320,17 @@ def checkout(request):
                 detalle_orden.productos.add(*flores)
                 
                 if metodo_pago == 'tarjeta':
+                    
+                    carrito = request.session.get('carrito', {})
+                    
+                    flores = Flores.objects.filter(id__in=carrito.keys())
+                    
+                    total = sum(flor.price * carrito[str(flor.id)] for flor in flores)
+                    
+                    cantidad = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
+                    
                     formPayment = PaymentForm()                        
-                    return render(request, 'checkout.html', {'formPayment': formPayment})
+                    return render(request, 'checkout.html', {'formPayment': formPayment, 'flores': flores, 'total': total, 'cantidad': cantidad})
                 else:
                     host = request.get_host()
             
@@ -363,9 +412,9 @@ def profile(request):
             cliente = Clientes.objects.get(id=user_id)
             
             try:
-                direccion = Direccion.objects.get(cliente=cliente)
+                direccion = Direccion.objects.get(cliente=user_id)
             except Direccion.DoesNotExist:
-                direccion = Direccion(cliente_id=cliente)
+                direccion = Direccion(cliente_id=user_id)
             
             direccion.calle = form.cleaned_data['calle']
             direccion.numero = form.cleaned_data['numero']
@@ -383,17 +432,22 @@ def profile(request):
         cliente = Clientes.objects.get(id=user_id)
         user = request.user
         
-        #consulta la direccion del cliente
-        direccion = Direccion.objects.get(cliente_id=user_id)
+        #consulta la direccion del cliente si existe
+        if Direccion.objects.filter(cliente_id=user_id).exists():
+            direccion = Direccion.objects.get(cliente_id=user_id)
+        else:
+            direccion = None
         
-        #domiciliocliente = DomicilioCliente()
-        
-        domiciliocliente = DomicilioCliente(initial={
-            'calle': direccion.calle,
-            'numero': direccion.numero,
-            'colonia': direccion.colonia,
-            'cp': direccion.codigo_postal,
-        })
+        #si no existe la direccion solo renderiza el formulario vacio
+        if direccion is None:
+            domiciliocliente = DomicilioCliente()
+        else:
+            domiciliocliente = DomicilioCliente(initial={
+                'calle': direccion.calle,
+                'numero': direccion.numero,
+                'colonia': direccion.colonia,
+                'cp': direccion.codigo_postal,
+            })
         
         #consulta las ordenes del cliente
         ordenes = Orden.objects.filter(cliente_id=user_id)
@@ -435,5 +489,3 @@ def profile(request):
         return render(request, 'profile.html', context)
 
 
-    
-    

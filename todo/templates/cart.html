@@ -264,7 +264,7 @@
 
                       <div>
                         <p class="lead fw-normal mb-2">
-                            {% for id, cant in cantidad %}
+                            {% for id, cant in quantity %}
                                 {% if id == flor.id %}
                                     <p> {{ cant }}</p>
                                 {% endif %}
@@ -404,5 +404,15 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/plugins.js '%}"></script>
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    <script>
+      var detallesCarrito = '{{ detalles_carrito|json_script:"detallesCarrito" }}';
+      var totalCarrito = '{{ total_carrito }}';
+    
+      // Almacena en localStorage
+      localStorage.setItem('detallesCarrito', JSON.stringify(detallesCarrito));
+      localStorage.setItem('totalCarrito', totalCarrito);
+
+      console.log(detallesCarrito);
+    </script>
   </body>
 </html>
