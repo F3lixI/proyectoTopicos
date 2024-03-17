@@ -105,9 +105,12 @@ def listProducts(request):
 def singleProduct(request, pk):
     
     producto = get_object_or_404(Flores, pk=pk)
-
-    # Verificar si el usuario ya ha realizado un comentario para este producto
-    existing_review = Reviews.objects.filter(producto=producto, cliente=request.user).exists()
+    
+    if request.user.is_authenticated:
+        # Verificar si el usuario ya ha realizado un comentario para este producto
+        existing_review = Reviews.objects.filter(producto=producto, cliente=request.user).exists()
+    else:
+        pass
     
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -147,9 +150,12 @@ def singleProduct(request, pk):
 
     else:
         #form = ReviewForm()
-        existing_review_instance = Reviews.objects.filter(producto=producto, cliente=request.user).first()
-        # Inicializar el formulario con la instancia del comentario existente si existe
-        form = ReviewForm(instance=existing_review_instance)
+        if request.user.is_authenticated:
+            existing_review_instance = Reviews.objects.filter(producto=producto, cliente=request.user).first()
+            form = ReviewForm(instance=existing_review_instance)
+        else:
+            form = ReviewForm()
+        
         
         flor = Flores.objects.get(pk=pk)
         

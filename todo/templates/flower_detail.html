@@ -244,11 +244,12 @@
         </div>
     </section>
 
+    
     <section  class="py-5 bg-light">
       <div class="container my-5 py-5 text-dark">
         <div class="row">
             <div class="col-md-8"> <!-- Columna para los comentarios -->
-                <h4 class="text-dark mb-4">Comentarios</h4>
+                <h3 class="text-dark mb-4">Comentarios</h3>
     
                 {% for review in reviews %}
                 <div class="card mb-3">
@@ -276,6 +277,7 @@
                 </div>
                 {% endfor %}
             </div>
+            {% if user.is_authenticated %}
             <div class="col-md-4"> <!-- Columna para el formulario -->
                 <h4 class="fw-bolder">Deja un comentario</h4>
                 <form action="" method="post">
@@ -286,11 +288,18 @@
                     <button class="btn btn-primary mt-3">Enviar comentario</button>
                 </form>
             </div>
+            {% else %}
+            <div class="col-md-4"> <!-- Columna para el formulario -->
+                <h4 class="fw-bolder">Deja un comentario</h4>
+                <p>Para dejar un comentario debes iniciar sesión</p>
+                <a href="{% url 'login' %}" class="btn btn-primary mt-3">Iniciar sesión</a>
+            {% endif %}
         </div>
     </div>
     
       
     </section>
+    
 
     <!-- productos relacionados-->
     <section class="py-5 bg-light">
