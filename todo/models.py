@@ -22,7 +22,7 @@ class Flores(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     dimension = models.CharField(max_length=30, null=True, blank=True)
-    large_image = models.URLField()
+    large_image = models.URLField(null=True, blank=True)
     extra_large_image = models.URLField(null=True, blank=True)
     service = models.CharField(max_length=1, null=True, blank=True)
     category = models.CharField(max_length=50)
@@ -81,7 +81,7 @@ class Orden(models.Model):
     
 class DetalleOrden(models.Model):
     id = models.AutoField(primary_key=True)
-    productos = models.ManyToManyField(Flores)
+    productos = models.ManyToManyField(Flores, through='DetalleordenProductos')
     id_orden  = models.ForeignKey(Orden, on_delete=models.CASCADE, null=True, blank=True)
     calle = models.CharField(max_length=50, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
@@ -97,6 +97,13 @@ class DetalleOrden(models.Model):
     def __str__(self):
         return str(self.id)
     
+
+class DetalleordenProductos(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    detalleorden = models.ForeignKey(DetalleOrden, on_delete=models.CASCADE, null=True, blank=True)
+    flores = models.ForeignKey(Flores, on_delete=models.CASCADE, null=True, blank=True)
+    cantidad = models.IntegerField(blank=True, null=True)
+
 
 class Reviews(models.Model):
     id = models.AutoField(primary_key=True)

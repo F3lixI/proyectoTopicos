@@ -94,11 +94,11 @@ hostname = socket.gethostname()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'floreriadbprod',
-        'HOST': 'ls-d733c21d7c44c6036b323a5575012ee95b330dd9.czg8iwqse9k3.us-west-2.rds.amazonaws.com',
+        'NAME': 'floreriadb',
+        'HOST': 'ls-908075dcda051d3435413738a4d2c35be91c1bef.czg8iwqse9k3.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
         'USER': 'dbmasteruser',
-        'PASSWORD': 'Jk22l^(-!d?HNJ=(b|4T,x_0;f~-t&Ap'
+        'PASSWORD': 'ZCF8:DXE`H)QjUy*,D;e8zCnX8cI[n&,'
     }
 }
 
