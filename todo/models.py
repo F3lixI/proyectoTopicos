@@ -103,6 +103,9 @@ class DetalleordenProductos(models.Model):
     detalleorden = models.ForeignKey(DetalleOrden, on_delete=models.CASCADE, null=True, blank=True)
     flores = models.ForeignKey(Flores, on_delete=models.CASCADE, null=True, blank=True)
     cantidad = models.IntegerField(blank=True, null=True)
+    
+    def __str__(self):
+        return str(self.id) + " " + str(self.detalleorden) + " " + str(self.flores) + " " + str(self.cantidad)
 
 
 class Reviews(models.Model):

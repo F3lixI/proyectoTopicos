@@ -377,23 +377,24 @@
                                       <p>Dirección de envío:</p>
                                         <p class="text-black"> {{ detalle.calle }}, {{ detalle.numero }}, {{ detalle.colonia }}, {{ detalle.codigo_postal }}</p>
                                       {% endif %}
+                                      
                                       {% endfor %}
                                   </div>
                                   <div class="col-md-6">
                                     <p class="mb-4"><span class="text-primary font-italic me-1">Productos</span></p>
-                                      
-                                        {% for nombre_flor, cantidad in cantidadFlores %}
-                                        {% for detalle in detalles %}
-                                            {% if detalle.id_orden_id == orden.id %}
-                                                {% for flor in detalle.productos.all %}
-                                                    {% if flor.name == nombre_flor %}
-                                                        <p class="text-black">X {{ cantidad }} {{ nombre_flor }}</p>
-                                                    {% endif %}
-                                                {% endfor %}
+                                    
+                                    {% for detalle in detalles %}
+                                    {% if detalle.id_orden_id == orden.id %}
+                                    
+                                        {% for producto in productos %}
+                                            {% if producto.cantidad > 0 and producto.detalleorden_id == detalle.id %}
+                                              <p class="text-black">{{ producto.cantidad }} <span class="text-muted">X</span> {{ producto.flores.name }} </p>
                                             {% endif %}
                                         {% endfor %}
+
+                                    {% endif %}
                                     {% endfor %}
-                                      
+                                    
                                   </div>
                               </div>
                           </div>

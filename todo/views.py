@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion, Reviews
+from . models import Flores, Clientes, Categoria, DetalleOrden, Orden, Direccion, Reviews, DetalleordenProductos
 from .forms import CustomCreationForm, PrecioForm, DomicilioForm, PaymentForm, ClienteForm, DomicilioCliente, ReviewForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
@@ -351,6 +351,17 @@ def checkout(request):
                 
                 detalle_orden.productos.add(*flores)
                 
+                #calcula la cantidad de cada producto en el carrito y los guarda en la tabla detalleordenproductos
+                quantity = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
+                
+                for flor_id, cantidad in quantity:
+                    detalle_producto = DetalleordenProductos()
+                    detalle_producto.detalleorden = detalle_orden  # Asigna el objeto detalle_orden creado anteriormente
+                    detalle_producto.flores_id = flor_id  # Asigna el ID de la flor
+                    detalle_producto.cantidad = cantidad  # Asigna la cantidad correspondiente
+                    detalle_producto.save()
+                
+                
                 if metodo_pago == 'tarjeta':
                     
                     carrito = request.session.get('carrito', {})
@@ -490,32 +501,18 @@ def profile(request):
         #consulta los detalles de las ordenes
         detalles = DetalleOrden.objects.filter(id_orden_id__in=ids)
         
-        #flores = []
+        #guarda los id de los productos de cada detalle
+        ids_productos = [detalle.id for detalle in detalles]
         
-        flores = []
-
-        for detalle in detalles:
-            for flor in detalle.productos.all():
-                flores.append(flor.name)
-
-        cantidadFlores = {}
-
-        for flor in flores:
-            cantidadFlores[flor] = cantidadFlores.get(flor, 0) + 1
-            
-        #print('helllllo',cantidadFlores)
-
-        cantidadFlores = [(flor, cantidad) for flor, cantidad in cantidadFlores.items()]
-
+        productos = DetalleordenProductos.objects.filter(detalleorden_id__in=ids_productos)
+        
         context = {
             'user': user,
             'cliente': cliente,
             'domiciliocliente': domiciliocliente,
             'ordenes': ordenes,
             'detalles': detalles,
-            #'flores' : flores,
-            'cantidadFlores': cantidadFlores,
-            
+            'productos': productos,
         }
         
         return render(request, 'profile.html', context)
