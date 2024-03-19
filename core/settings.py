@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'paypal.standard.ipn',
+    'import_export',
     
 ]
 
@@ -163,3 +164,5 @@ ACCOUNT_EMAIL_REQUIRED=True
 
 #redirige a login si no esta logeado
 LOGIN_URL = 'login'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

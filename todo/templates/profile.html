@@ -369,30 +369,31 @@
                               <div class="row">
                                   <div class="col-md-6">
                                       <p class="mb-4"><span class="text-primary font-italic me-1">{{ orden.fecha }}</span></p>
-                                      <p class="mb-1">{{ orden.total }}</p>
-                                      <p>{{ orden.estado }}</p>
+                                      <p>Estado orden: <span class="text-black">{{ orden.estado }}</span></p>
+                                      <p>Total: <span class="text-black">{{ orden.total }}</span></p>
+                                    
                                       {% for detalle in detalles %}
                                       {% if detalle.id_orden_id == orden.id %}
-                                      <p>{{ detalle.metodoPago }}</p>
-                                      <p>{{ detalle.calle }}</p>
+                                      <p>Dirección de envío:</p>
+                                        <p class="text-black"> {{ detalle.calle }}, {{ detalle.numero }}, {{ detalle.colonia }}, {{ detalle.codigo_postal }}</p>
                                       {% endif %}
                                       {% endfor %}
                                   </div>
                                   <div class="col-md-6">
-                                      <h5>Productos:</h5>
-                                      <ul>
+                                    <p class="mb-4"><span class="text-primary font-italic me-1">Productos</span></p>
+                                      
                                         {% for nombre_flor, cantidad in cantidadFlores %}
                                         {% for detalle in detalles %}
                                             {% if detalle.id_orden_id == orden.id %}
                                                 {% for flor in detalle.productos.all %}
                                                     {% if flor.name == nombre_flor %}
-                                                        <li>{{ cantidad }} {{ nombre_flor }}</li>
+                                                        <p class="text-black">X {{ cantidad }} {{ nombre_flor }}</p>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}
                                         {% endfor %}
                                     {% endfor %}
-                                      </ul>
+                                      
                                   </div>
                               </div>
                           </div>
