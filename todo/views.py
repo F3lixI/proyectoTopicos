@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 from django.utils import timezone
 
@@ -98,9 +99,13 @@ def iniciarSesion(request):
     
 def listProducts(request):
     
-    flores = Flores.objects.all()[:20]
+    flores = Flores.objects.all()
     
-    return render(request, 'listProducts.html', {'flores': flores})
+    paginator = Paginator(flores, 20)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'listProducts.html', {'flores': page_obj})
 
 def singleProduct(request, pk):
     
@@ -181,14 +186,43 @@ def filtrar_productos(request):
             if precio_min == None:
                 precio_min = 0
                 
-            flores = Flores.objects.filter(price__gte=precio_min, price__lte=precio_max)[:20]
-            return render(request, 'listProducts.html', {'flores': flores, 'form': form})
+            flores = Flores.objects.filter(price__gte=precio_min, price__lte=precio_max)
+            
+            paginator = Paginator(flores, 15)  
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            return render(request, 'listProducts.html', {'flores': page_obj, 'form': form})
     else:
         form = PrecioForm()
         
-        flores = Flores.objects.all()[:20]
+        flores = Flores.objects.all()
         
-        return render(request, 'listProducts.html', {'form': form, 'flores': flores})
+        paginator = Paginator(flores, 15)  
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        return render(request, 'listProducts.html', {'form': form, 'flores': page_obj})
+    
+def filtrarOcasiones(request, category):
+    
+    productos = Categoria.objects.filter(categoria=category)
+    
+    #obtiene el producto_id de productos
+    productos_id = [producto.producto_id for producto in productos]
+    
+    #consulta las flores con los productos_id
+    flores = Flores.objects.filter(id__in=productos_id)
+    
+    paginator = Paginator(flores, 15)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'listProducts.html', {'flores': page_obj, 'category': category})
+    
+    
+    
+    
+    
     
 def search(request):
     query = request.GET.get('q')
@@ -347,9 +381,10 @@ def checkout(request):
                 detalle_orden.indicaciones = form.cleaned_data['indicaciones']
                 detalle_orden.mensaje = form.cleaned_data['mensaje']
                 detalle_orden.nombreInstitucion = form.cleaned_data['nombreInstitucion']
+                detalle_orden.fechaEntrega = form.cleaned_data['fecha_entrega']
                 detalle_orden.save()
                 
-                detalle_orden.productos.add(*flores)
+                #detalle_orden.productos.add(*flores)
                 
                 #calcula la cantidad de cada producto en el carrito y los guarda en la tabla detalleordenproductos
                 quantity = [(flor.id, carrito.get(str(flor.id), 0)) for flor in flores]
@@ -393,8 +428,8 @@ def checkout(request):
                         'invoice': str(uuid.uuid4()),
                         'currency_code': 'USD',
                         #'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-                        #'return_url': 'http://{}{}'.format(host, reverse('profile')),
-                        #'cancel_return': 'http://{}{}'.format(host, reverse('checkout')),
+                        'return_url': 'http://{}{}'.format(host, reverse('profile')),
+                        'cancel_return': 'http://{}{}'.format(host, reverse('checkout')),
                     }
                         
                     paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
@@ -403,7 +438,12 @@ def checkout(request):
                     
                     context = {
                         'paypal': paypal_payment,
+                        'flores': flores,
+                        'total': total,
+                        
                     }
+                    
+                    del request.session['carrito']
                     
                     return render(request, 'checkout.html', context)
             else:

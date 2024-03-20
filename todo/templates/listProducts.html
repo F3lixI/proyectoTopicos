@@ -223,11 +223,11 @@
               <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
                 <div class="accordion-body">
                   <ul class="list-unstyled">
-                    <li><a href="#" class="text-dark">San Valentin </a></li>
-                    <li><a href="#" class="text-dark">Feliz Cumpleaños </a></li>
-                    <li><a href="#" class="text-dark">Agradecimiento </a></li>
-                    <li><a href="#" class="text-dark">Mejorate Pronto </a></li>
-                    <li><a href="#" class="text-dark">Funeral </a></li>
+                    <li><a href="{% url 'filtrarOcasiones' category='vd' %}" class="text-dark">San Valentin </a></li>
+                    <li><a href="{% url 'filtrarOcasiones' category='bd' %}" class="text-dark">Feliz Cumpleaños </a></li>
+                    <li><a href="{% url 'filtrarOcasiones' category='ty' %}" class="text-dark">Agradecimiento </a></li>
+                    <li><a href="{% url 'filtrarOcasiones' category='gw' %}" class="text-dark">Mejorate Pronto </a></li>
+                    <li><a href="{% url 'filtrarOcasiones' category='sy' %}" class="text-dark">Funeral </a></li>
                   </ul>
                 </div>
               </div>
@@ -311,14 +311,14 @@
         <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
           <h2 class="d-block py-2">Buscando: </h2>
           <div class="ms-auto">
-            <form method="get" action="">
+            <!-- <form method="get" action="">
                 <select name="orden" id="ordenamiento" class="form-select d-inline-block w-auto border pt-1" onchange="this.form.submit()">
                   <option value="0" {% if orden == '0' %}selected{% endif %}>Ordenar por defecto</option>
                   <option value="1" {% if orden == '1' %}selected{% endif %}>Precio: Menor a Mayor</option>
                   <option value="2" {% if orden == '2' %}selected{% endif %}>Precio: Mayor a Menor</option>
                   <option value="3" {% if orden == '3' %}selected{% endif %}>Alfabéticamente: A-Z</option>
                 </select>
-            </form>
+            </form> -->
         </div>
         </header>
 
@@ -350,7 +350,7 @@
         <hr />
 
         <!-- Pagination -->
-        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+        <!-- <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
           <ul class="pagination">
             <li class="page-item disabled">
               <a class="page-link" href="#" aria-label="Previous">
@@ -368,7 +368,24 @@
               </a>
             </li>
           </ul>
-        </nav>
+        </nav> -->
+        <div class="pagination">
+          <span class="step-links">
+              {% if flores.has_previous %}
+                  <a href="?page=1">&laquo; Primera</a>
+                  <a href="?page={{ flores.previous_page_number }}">Anterior</a>
+              {% endif %}
+      
+              <span class="current">
+                  Página {{ flores.number }} de {{ flores.paginator.num_pages }}.
+              </span>
+      
+              {% if flores.has_next %}
+                  <a href="?page={{ flores.next_page_number }}">Siguiente</a>
+                  <a href="?page={{ flores.paginator.num_pages }}">Última &raquo;</a>
+              {% endif %}
+          </span>
+      </div>
         <!-- Pagination -->
       </div>
     </div>

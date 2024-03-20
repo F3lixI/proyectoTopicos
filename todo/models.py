@@ -92,6 +92,7 @@ class DetalleOrden(models.Model):
     indicaciones = models.CharField(max_length=255, null=True, blank=True)
     mensaje = models.CharField(max_length=255, null=True, blank=True)
     nombreInstitucion = models.CharField(max_length=255, null=True, blank=True)
+    fechaEntrega = models.DateTimeField(null=True, blank=True)
     
     
     def __str__(self):

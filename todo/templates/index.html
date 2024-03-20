@@ -158,19 +158,19 @@
                   <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ocasiones</a>
                   <ul class="dropdown-menu">
                     <li>
-                      <a href="about.html" class="dropdown-item">San Valentín</a>
+                      <a href="{% url 'filtrarOcasiones' category='vd' %}" class="dropdown-item">San Valentín</a>
                     </li>
                     <li>
-                      <a href="blog.html" class="dropdown-item">FeliZ Cumpleaños</a>
+                      <a href="{% url 'filtrarOcasiones' category='bd' %}" class="dropdown-item">FeliZ Cumpleaños</a>
                     </li>
                     <li>
-                      <a href="shop.html" class="dropdown-item">Agradecimiento</a>
+                      <a href="{% url 'filtrarOcasiones' category='ty' %}" class="dropdown-item">Agradecimiento</a>
                     </li>
                     <li>
-                      <a href="#" class="dropdown-item">Mejorate Pronto</a>
+                      <a href="{% url 'filtrarOcasiones' category='gw' %}" class="dropdown-item">Mejorate Pronto</a>
                     </li>
                     <li>
-                      <a href="checkout.html" class="dropdown-item">Funeral</a>
+                      <a href="{% url 'filtrarOcasiones' category='sy' %}" class="dropdown-item">Funeral</a>
                     </li>
                   </ul>
                 </li>
